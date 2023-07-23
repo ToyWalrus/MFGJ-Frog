@@ -2,87 +2,94 @@ using UnityEngine;
 
 public class GrapplingRope : MonoBehaviour
 {
-    public GrapplingGun grapplingGun;
-
-    [Space(10)]
-    [SerializeField] private int linePrecision = 40;
+    [SerializeField, Tooltip("The higher this count, the more smooth the line will look")] private int linePrecision = 40;
     [SerializeField] private float ropeTightenSpeed = 5;
     [SerializeField] private float amplitudeMultiply = 2;
     [SerializeField] private AnimationCurve ropeShape;
-    private float amplitude = 0;
+    
+    private float _amplitude = 0f;
 
+    private LineRenderer _lineRenderer;
+    public bool IsDrawing => _lineRenderer.enabled;
 
-
-    public bool IsDrawing => lineRenderer.enabled;
-
-    private float moveTime = 0;
-    private LineRenderer lineRenderer;
-
-    void Start()
+    private void Start()
     {
-        lineRenderer = GetComponent<LineRenderer>();
-        lineRenderer.enabled = false;
+        _lineRenderer = GetComponent<LineRenderer>();
+        _lineRenderer.enabled = false;
     }
 
     public void EnableRope(Vector2 startPosition)
     {
-        moveTime = 0;
-        lineRenderer.positionCount = linePrecision;
-        amplitude = amplitudeMultiply;
+        _lineRenderer.positionCount = linePrecision;
+        _amplitude = amplitudeMultiply;
 
         for (var i = 0; i < linePrecision; i++)
         {
-            lineRenderer.SetPosition(i, startPosition);
+            // Set all points on line renderer to start position
+            _lineRenderer.SetPosition(i, startPosition);
         }
 
-        lineRenderer.enabled = true;
+        // Start drawing the line
+        _lineRenderer.enabled = true;
     }
 
     public void DisableRope()
     {
-        lineRenderer.enabled = false;
+        // Stop drawing the line
+        _lineRenderer.enabled = false;
     }
 
-
-    private void Update()
+    public void DrawRope(Vector2 startPoint, Vector2 endPoint, Vector2 desiredDirection, bool isTaut)
     {
-        moveTime += Time.deltaTime;
-    }
-
-    public void DrawRope(Vector2 startPoint, Vector2 endPoint, bool isTaut)
-    {
-        if (amplitude > 0)
+        if (_amplitude > 0)
         {
             if (isTaut)
             {
-                amplitude -= Time.deltaTime * ropeTightenSpeed;
+                // Decrease amplitude if the rope is taut (tightening the rope)
+                _amplitude -= Time.deltaTime * ropeTightenSpeed;
             }
-            DrawRopeWithWaves(startPoint, endPoint);
+
+            // Draw the rope along the rope shape curve
+            DrawRopeAlongCurve(startPoint, endPoint, desiredDirection);
         }
         else if (isTaut)
         {
-
+            // Draw a straight line if the rope is taut and the amplitude is 0
             DrawStraightLine(startPoint, endPoint);
         }
     }
 
-    private void DrawRopeWithWaves(Vector2 startPoint, Vector2 endPoint)
+    private void DrawRopeAlongCurve(Vector2 startPoint, Vector2 endPoint, Vector2 desiredDirection)
     {
+        var perpendicularDirection = Vector2.Perpendicular(desiredDirection).normalized;
+        
         for (var i = 0; i < linePrecision; i++)
         {
+            // Determine the point along the rope shape curve
             var delta = i / (linePrecision - 1f);
-            var offset = Vector2.Perpendicular(grapplingGun.grappleDistanceVector).normalized * ropeShape.Evaluate(delta) * amplitude;
+            
+            // Evaluate the value of the curve at the current delta
+            var pointValue = ropeShape.Evaluate(delta) * _amplitude;
+
+            // Offset the point along the perpendicular direction (so the line is not always horizontal)
+            var offset = perpendicularDirection * pointValue;
+            
+            // Lerp between the start and end points, then add the offset (curve)
             var targetPosition = Vector2.Lerp(startPoint, endPoint, delta) + offset;
+            
+            // Lerp between the start point and the target position to get the final position at the current delta
             var currentPosition = Vector2.Lerp(startPoint, targetPosition, delta);
 
-            lineRenderer.SetPosition(i, currentPosition);
+            // Set the current point on the line renderer to currentPosition
+            _lineRenderer.SetPosition(i, currentPosition);
         }
     }
 
     private void DrawStraightLine(Vector2 startPoint, Vector2 endPoint)
     {
-        lineRenderer.positionCount = 2;
-        lineRenderer.SetPosition(0, startPoint);
-        lineRenderer.SetPosition(1, endPoint);
+        // Simplify the line renderer to only have 2 points, since it's a straight line
+        _lineRenderer.positionCount = 2;
+        _lineRenderer.SetPosition(0, startPoint);
+        _lineRenderer.SetPosition(1, endPoint);
     }
 }
