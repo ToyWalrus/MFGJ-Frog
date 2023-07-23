@@ -58,7 +58,7 @@ public class CharacterController : MonoBehaviour
     /// <summary>
     /// The primary movement function. Call this to update the rigidbody.
     /// </summary>
-    public void Move(float move, bool jump)
+    public void Move(float move)
     {
         if (_grounded)
         {
@@ -70,12 +70,12 @@ public class CharacterController : MonoBehaviour
         }
 
         CheckForReversedDirection(move);
+    }
 
-        if (!jump) return;
-
+    public void Jump()
+    {
         // If the player should jump...
         // Add a vertical force to the player.
-        _grounded = false;
         _rb.AddForce(new Vector2(0f, jumpForce));
     }
 
@@ -124,6 +124,7 @@ public class CharacterController : MonoBehaviour
     private void OnDrawGizmos()
     {
         if (groundCheck == null) return;
+
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(groundCheck.position, GroundedCheckRadius);
     }

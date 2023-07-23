@@ -5,6 +5,7 @@ public class PlayerInput : MonoBehaviour
 {
     [SerializeField] private CharacterController controller;
     [SerializeField] private float speed = 15f;
+    [SerializeField] private GrapplingGun grappler;
 
     private float _movement = 0f;
     private bool _jumpPressed = false;
@@ -27,7 +28,7 @@ public class PlayerInput : MonoBehaviour
     {
         controller.onLandEvent.AddListener(ResetJumpCount);
     }
-    
+
     private void OnDisable()
     {
         controller.onLandEvent.RemoveListener(ResetJumpCount);
@@ -46,8 +47,20 @@ public class PlayerInput : MonoBehaviour
     // Move player
     private void FixedUpdate()
     {
-        controller.Move(_movement * speed * Time.fixedDeltaTime, _jumpPressed);
-        UpdateJumpCount(_jumpPressed);
+        // Don't accept movement if we're grappling
+        if (grappler != null && grappler.IsGrappled) return;
+        
+        if (_movement != 0f)
+        {
+            controller.Move(_movement * speed * Time.fixedDeltaTime);
+        }
+
+        if (_jumpPressed)
+        {
+            controller.Jump();
+            _jumpsSinceLastGrounded++;
+        }
+
         ResetJumpPressed();
     }
 
@@ -74,15 +87,7 @@ public class PlayerInput : MonoBehaviour
     {
         _jumpCooldownTimer -= deltaTime;
     }
-
-    private void UpdateJumpCount(bool didJump)
-    {
-        if (didJump)
-        {
-            _jumpsSinceLastGrounded++;
-        }
-    }
-
+    
     private void ResetJumpPressed()
     {
         if (_jumpPressed)

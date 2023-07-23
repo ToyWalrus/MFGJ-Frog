@@ -1,13 +1,16 @@
 using UnityEngine;
 
+[RequireComponent(typeof(LineRenderer))]
 public class GrapplingRope : MonoBehaviour
 {
-    [SerializeField, Tooltip("The higher this count, the more smooth the line will look")] private int linePrecision = 40;
+    [SerializeField, Tooltip("The higher this count, the more smooth the line will look")]
+    private int linePrecision = 40;
     [SerializeField] private float ropeTightenSpeed = 5;
     [SerializeField] private float amplitudeMultiply = 2;
     [SerializeField] private AnimationCurve ropeShape;
-    
+
     private float _amplitude = 0f;
+    private Vector2 _distance;
 
     private LineRenderer _lineRenderer;
     public bool IsDrawing => _lineRenderer.enabled;
@@ -18,8 +21,9 @@ public class GrapplingRope : MonoBehaviour
         _lineRenderer.enabled = false;
     }
 
-    public void EnableRope(Vector2 startPosition)
+    public void EnableRope(Vector2 startPosition, Vector2 ropeDistance)
     {
+        _distance = ropeDistance;
         _lineRenderer.positionCount = linePrecision;
         _amplitude = amplitudeMultiply;
 
@@ -39,7 +43,7 @@ public class GrapplingRope : MonoBehaviour
         _lineRenderer.enabled = false;
     }
 
-    public void DrawRope(Vector2 startPoint, Vector2 endPoint, Vector2 desiredDirection, bool isTaut)
+    public void DrawRope(Vector2 startPoint, Vector2 endPoint, bool isTaut)
     {
         if (_amplitude > 0)
         {
@@ -50,7 +54,7 @@ public class GrapplingRope : MonoBehaviour
             }
 
             // Draw the rope along the rope shape curve
-            DrawRopeAlongCurve(startPoint, endPoint, desiredDirection);
+            DrawRopeAlongCurve(startPoint, endPoint);
         }
         else if (isTaut)
         {
@@ -59,24 +63,24 @@ public class GrapplingRope : MonoBehaviour
         }
     }
 
-    private void DrawRopeAlongCurve(Vector2 startPoint, Vector2 endPoint, Vector2 desiredDirection)
+    private void DrawRopeAlongCurve(Vector2 startPoint, Vector2 endPoint)
     {
-        var perpendicularDirection = Vector2.Perpendicular(desiredDirection).normalized;
-        
+        var perpendicularDirection = Vector2.Perpendicular(_distance).normalized;
+
         for (var i = 0; i < linePrecision; i++)
         {
             // Determine the point along the rope shape curve
             var delta = i / (linePrecision - 1f);
-            
+
             // Evaluate the value of the curve at the current delta
             var pointValue = ropeShape.Evaluate(delta) * _amplitude;
 
             // Offset the point along the perpendicular direction (so the line is not always horizontal)
             var offset = perpendicularDirection * pointValue;
-            
+
             // Lerp between the start and end points, then add the offset (curve)
             var targetPosition = Vector2.Lerp(startPoint, endPoint, delta) + offset;
-            
+
             // Lerp between the start point and the target position to get the final position at the current delta
             var currentPosition = Vector2.Lerp(startPoint, targetPosition, delta);
 

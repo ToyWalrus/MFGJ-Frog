@@ -20,39 +20,38 @@ public class GrapplingGun : MonoBehaviour
     [SerializeField] private float maxDistance = 10;
 
     [Space(10)]
-    public GameObject player;
-    public Transform gunPivot;
+    public SpringJoint2D joint;
+    public Transform grapplePivot;
     public Transform firePoint;
     [SerializeField] private float fireSpeed = 30;
 
     [Space(10), Header("When firing gun with M2 exclusively")]
     [SerializeField] private float maxRopeLengthAfterHooked = 3;
     [SerializeField] private float speedToDesiredRopeLength = 1;
-    
+
     private GrappleMode _grappleMode = GrappleMode.PullToPoint;
     private Vector2 _grapplePoint;
     private float _ropeLength;
-    
+
     private Vector2 _hookPosition;
     private bool _hookIsSet; // Whether the hook has reached the grapple point
     private bool _raycastDidHit;
-    
-    private SpringJoint2D _springJoint;
+
     private Rigidbody2D _rb;
     private Camera _cam;
 
     private bool HasFired => grapplingRope.IsDrawing;
+    public bool IsGrappled => joint.enabled;
 
     private void Start()
     {
         _hookPosition = firePoint.position;
-        _springJoint = player.GetComponent<SpringJoint2D>();
-        _rb = player.GetComponent<Rigidbody2D>();
+        _rb = joint.GetComponent<Rigidbody2D>();
         _cam = Camera.main;
 
-        if (_springJoint == null)
+        if (joint == null)
         {
-            Debug.LogError("The player component must have a SpringJoint2D component attached to it");
+            Debug.LogError("The GrapplingGun component must have a SpringJoint2D component reference");
         }
 
         if (_rb == null)
@@ -66,7 +65,9 @@ public class GrapplingGun : MonoBehaviour
         }
 
         // Reset grapple variables on start
-        EndGrapple();
+        _ropeLength = float.MinValue;
+        joint.enabled = false;
+        _hookIsSet = false;
     }
 
     private void Update()
@@ -106,8 +107,7 @@ public class GrapplingGun : MonoBehaviour
         RotateGun(_grapplePoint);
         UpdateHookPosition();
 
-        var desiredDirection = _grapplePoint - (Vector2)gunPivot.position;
-        grapplingRope.DrawRope(firePoint.position, _hookPosition, desiredDirection, _hookIsSet);
+        grapplingRope.DrawRope(firePoint.position, _hookPosition, _hookIsSet);
 
         if (_hookIsSet && _raycastDidHit)
         {
@@ -133,10 +133,10 @@ public class GrapplingGun : MonoBehaviour
 
     private void RotateGun(Vector3 lookPoint)
     {
-        var distanceVector = lookPoint - gunPivot.position;
+        var distanceVector = lookPoint - grapplePivot.position;
         var angle = Mathf.Atan2(distanceVector.y, distanceVector.x) * Mathf.Rad2Deg;
 
-        gunPivot.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        grapplePivot.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
         if (!HasFired)
         {
@@ -147,19 +147,21 @@ public class GrapplingGun : MonoBehaviour
 
     private void FireGrapple()
     {
-        var directionVector = _cam.ScreenToWorldPoint(Input.mousePosition) - gunPivot.position;
+        Vector2 grapplePosition = grapplePivot.position;
+        Vector2 firePosition = firePoint.position;
+
+        var directionVector = (Vector2)_cam.ScreenToWorldPoint(Input.mousePosition) - grapplePosition;
         var normalizedDirection = directionVector.normalized;
 
         // Use raycast to check if we hit something
-        var hit = Physics2D.Raycast(firePoint.position, normalizedDirection, maxDistance, grappleLayers);
+        var hit = Physics2D.Raycast(firePosition, normalizedDirection, maxDistance, grappleLayers);
 
         _raycastDidHit = hit;
-        _grapplePoint = hit ? hit.point : normalizedDirection * maxDistance; 
+        _grapplePoint = hit ? hit.point : (normalizedDirection * maxDistance) + grapplePosition;
 
         // Enable the rope renderer and set the starting position
-        var startingPosition = firePoint.position;
-        grapplingRope.EnableRope(startingPosition);
-        _hookPosition = startingPosition;
+        grapplingRope.EnableRope(firePosition, _grapplePoint - grapplePosition);
+        _hookPosition = firePosition;
     }
 
     private void UpdateHookPosition()
@@ -172,27 +174,22 @@ public class GrapplingGun : MonoBehaviour
         _hookPosition = Vector2.MoveTowards(_hookPosition, _grapplePoint, Time.deltaTime * fireSpeed);
 
         // If the hook is close enough to the grapple point, snap it to the grapple point
-        _hookIsSet = Vector2.Distance(_hookPosition, _grapplePoint) <= GrappleHookCheckRadius;
-        if (_hookIsSet)
-        {
-            _hookPosition = _grapplePoint;
-        }
+        _hookIsSet = _hookPosition == _grapplePoint;
 
-        // Not sure if we need this...?
-        // if (!_hookIsSet || _raycastDidHit) return;
-        //
-        // // Do one last check that we haven't hit something
-        // var hitCheck = Physics2D.OverlapCircle(_hookPosition, GrappleHookCheckRadius, grappleLayers);
-        // if (hitCheck)
-        // {
-        //     grapplePoint = hitCheck.ClosestPoint(_hookPosition);
-        //     _raycastDidHit = true;
-        // }
-        // else
-        // {
-        //     // If raycast didn't hit anything and the hook is still not set, end the grapple
-        //     EndGrapple();
-        // }
+        if (!_hookIsSet || _raycastDidHit) return;
+
+        // Do one last check that we haven't hit something
+        var hitCheck = Physics2D.OverlapCircle(_hookPosition, GrappleHookCheckRadius, grappleLayers);
+        if (hitCheck)
+        {
+            _grapplePoint = hitCheck.ClosestPoint(_hookPosition);
+            _raycastDidHit = true;
+        }
+        else
+        {
+            // If raycast didn't hit anything and the hook is still not set, end the grapple
+            EndGrapple();
+        }
     }
 
     private void HandleGrapple()
@@ -215,17 +212,17 @@ public class GrapplingGun : MonoBehaviour
     private void PullToPoint()
     {
         // Connect the spring joint at the point we hit the collider (grapplePoint)
-        _springJoint.connectedAnchor = _grapplePoint;
+        joint.connectedAnchor = _grapplePoint;
 
         // Set the distance to the distance between the player and the fire point
         // (so the player doesn't get pulled in too close)
-        _springJoint.distance = Vector2.Distance(firePoint.position, player.transform.position);
+        joint.distance = Vector2.Distance(firePoint.position, joint.transform.position);
 
         // Set the spring joint's frequency to 0 so it doesn't oscillate
-        _springJoint.frequency = 0;
+        joint.frequency = 0;
 
         // Enable the spring joint
-        _springJoint.enabled = true;
+        joint.enabled = true;
     }
 
     private void KeepAtDistance()
@@ -236,15 +233,15 @@ public class GrapplingGun : MonoBehaviour
             _ropeLength = Math.Min(dist, maxRopeLengthAfterHooked);
         }
 
-        _springJoint.distance = _ropeLength;
-        _springJoint.frequency = speedToDesiredRopeLength;
+        joint.distance = _ropeLength;
+        joint.frequency = speedToDesiredRopeLength;
 
         // If we want to automatically set the length of rope to the current distance, we can do this:
-        // _springJoint.autoConfigureDistance = true;
-        // _springJoint.frequency = 0;
+        // joint.autoConfigureDistance = true;
+        // joint.frequency = 0;
 
-        _springJoint.connectedAnchor = _grapplePoint;
-        _springJoint.enabled = true;
+        joint.connectedAnchor = _grapplePoint;
+        joint.enabled = true;
     }
 
     private void EndGrapple()
@@ -252,7 +249,7 @@ public class GrapplingGun : MonoBehaviour
         // Reset all the grapple variables
         grapplingRope.DisableRope();
         _ropeLength = float.MinValue;
-        _springJoint.enabled = false;
+        joint.enabled = false;
         _hookIsSet = false;
     }
 
