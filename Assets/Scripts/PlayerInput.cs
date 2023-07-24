@@ -42,6 +42,7 @@ public class PlayerInput : MonoBehaviour
         if (!CheckCanJump(Time.deltaTime)) return;
 
         _jumpPressed = Input.GetButton("Jump");
+
     }
 
     // Move player
@@ -50,13 +51,15 @@ public class PlayerInput : MonoBehaviour
         // Don't accept movement if we're grappling
         if (_jumpPressed)
         {
-            if(grappler.IsGrappled)
+            
+            
+            controller.Jump(grappler.IsGrappled, grappler.grappleModeReadout);
+            _jumpsSinceLastGrounded++;
+
+            if (grappler.IsGrappled)
             {
                 grappler.EndGrapple();
             }
-            
-            controller.Jump(grappler.grappleModeReadout);
-            _jumpsSinceLastGrounded++;
         }
 
         if (grappler != null && grappler.IsGrappled) return;
@@ -75,7 +78,7 @@ public class PlayerInput : MonoBehaviour
     {
         UpdateCoyoteTime(deltaTime);
         UpdateJumpCooldown(deltaTime);
-        return _jumpCooldownTimer <= 0f && (_jumpsSinceLastGrounded < maxJumps || _coyoteTimeTimer >= 0f);
+        return _jumpCooldownTimer <= 0f && !_jumpPressed && (_jumpsSinceLastGrounded < maxJumps || _coyoteTimeTimer >= 0f);
     }
 
     private void UpdateCoyoteTime(float deltaTime)

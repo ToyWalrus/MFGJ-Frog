@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq.Expressions;
+using UnityEngine;
 using UnityEngine.Events;
 
 // Code derived from Brackey's movement tutorial https://youtu.be/dwcT-Dch0bA
@@ -74,14 +75,15 @@ public class CharacterController : MonoBehaviour
         CheckForReversedDirection(move);
     }
 
-    public void Jump( string grappleMode)
+    public void Jump( bool grappling, string grappleMode)
     {
         // If the player should jump...
         // Add a vertical force to the player.
-        if (grappleMode == "hold")
+        if (grappleMode == "hold" || !grappling)
         {
             _rb.velocity = Vector3.zero;
         }
+        
         _rb.AddForce(Vector2.up * jumpForce + Vector2.right * _facingRightInt * jumpSideForce);
     }
 
