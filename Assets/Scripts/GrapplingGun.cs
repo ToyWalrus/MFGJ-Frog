@@ -29,6 +29,7 @@ public class GrapplingGun : MonoBehaviour
     [SerializeField] private float maxRopeLengthAfterHooked = 3;
     [SerializeField] private float speedToDesiredRopeLength = 1;
 
+    public string grappleModeReadout = "";
     private GrappleMode _grappleMode = GrappleMode.PullToPoint;
     private Vector2 _grapplePoint;
     private float _ropeLength;
@@ -199,9 +200,11 @@ public class GrapplingGun : MonoBehaviour
         switch (_grappleMode)
         {
             case GrappleMode.PullToPoint:
+                grappleModeReadout = "pull";
                 PullToPoint();
                 break;
             case GrappleMode.KeepAtDistance:
+                grappleModeReadout = "hold";
                 KeepAtDistance();
                 break;
             default:
@@ -244,7 +247,7 @@ public class GrapplingGun : MonoBehaviour
         joint.enabled = true;
     }
 
-    private void EndGrapple()
+    public void EndGrapple()
     {
         // Reset all the grapple variables
         grapplingRope.DisableRope();
