@@ -136,7 +136,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: TongueSpritesheet_0
+      name: TongueStart
       rect:
         serializedVersion: 2
         x: 0
@@ -157,7 +157,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TongueSpritesheet_1
+      name: TongueExtendStart
       rect:
         serializedVersion: 2
         x: 539
@@ -178,7 +178,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TongueSpritesheet_2
+      name: TongueExtendStart2
       rect:
         serializedVersion: 2
         x: 1081
@@ -199,7 +199,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TongueSpritesheet_3
+      name: TongueExtend1
       rect:
         serializedVersion: 2
         x: 1622
@@ -220,7 +220,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TongueSpritesheet_4
+      name: TongueExtend2
       rect:
         serializedVersion: 2
         x: 2162
@@ -241,28 +241,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TongueSpritesheet_5
-      rect:
-        serializedVersion: 2
-        x: 2704
-        y: 673
-        width: 539
-        height: 21
-      alignment: 4
-      pivot: {x: 0, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 45e2e45af3bf5f446b7582cddc97be7c
-      internalID: 1591823928
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TongueSpritesheet_6
+      name: TongueExtend3
       rect:
         serializedVersion: 2
         x: 0
@@ -271,7 +250,7 @@ TextureImporter:
         height: 20
       alignment: 4
       pivot: {x: 0, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 57, y: 0, z: 108, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -283,112 +262,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TongueSpritesheet_7
-      rect:
-        serializedVersion: 2
-        x: 1081
-        y: 458
-        width: 82
-        height: 14
-      alignment: 4
-      pivot: {x: 0, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d07343844e9cc3b4db712f102910ddd0
-      internalID: 422174678
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TongueSpritesheet_8
-      rect:
-        serializedVersion: 2
-        x: 1621
-        y: 458
-        width: 161
-        height: 14
-      alignment: 4
-      pivot: {x: 0, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1b96b17c2ce199c40abec101f9eb452f
-      internalID: 1178398568
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TongueSpritesheet_9
-      rect:
-        serializedVersion: 2
-        x: 2164
-        y: 458
-        width: 313
-        height: 14
-      alignment: 4
-      pivot: {x: 0, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d63f84505dcc0d74b932ce0550ded758
-      internalID: -1620514610
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TongueSpritesheet_11
-      rect:
-        serializedVersion: 2
-        x: 3168
-        y: 455
-        width: 75
-        height: 20
-      alignment: 4
-      pivot: {x: 0, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a33b8a5c16ac4e947ab44c608a216aff
-      internalID: 1272090808
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TongueSpritesheet_12
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 13
-        width: 219
-        height: 26
-      alignment: 4
-      pivot: {x: 0, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 432b1ea40c3935443a44bcbf9380439a
-      internalID: -2147411982
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TongueSpritesheet_13
+      name: TongueStuck
       rect:
         serializedVersion: 2
         x: 0
@@ -397,7 +271,7 @@ TextureImporter:
         height: 47
       alignment: 4
       pivot: {x: 0, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 58, y: 0, z: 64, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -409,7 +283,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TongueSpritesheet_14
+      name: TongueSplat
       rect:
         serializedVersion: 2
         x: 539
@@ -418,7 +292,7 @@ TextureImporter:
         height: 47
       alignment: 4
       pivot: {x: 0, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 58, y: 0, z: 64, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -430,7 +304,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TongueSpritesheet_15
+      name: TongueRetract
       rect:
         serializedVersion: 2
         x: 1081
@@ -451,7 +325,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TongueSpritesheet_16
+      name: TongueEnd
       rect:
         serializedVersion: 2
         x: 1622
@@ -471,69 +345,6 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: TongueSpritesheet_18
-      rect:
-        serializedVersion: 2
-        x: 2162
-        y: 224
-        width: 82
-        height: 47
-      alignment: 4
-      pivot: {x: 0, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 545169228b903134e97cd461aeb4e1f9
-      internalID: 1272687957
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TongueSpritesheet_19
-      rect:
-        serializedVersion: 2
-        x: 2704
-        y: 224
-        width: 82
-        height: 47
-      alignment: 4
-      pivot: {x: 0, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 40f5360d8d056a041b694ade8c9c1530
-      internalID: -1468263775
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TongueSpritesheet_10
-      rect:
-        serializedVersion: 2
-        x: 540
-        y: 455
-        width: 79
-        height: 20
-      alignment: 4
-      pivot: {x: 0, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 51d53e771c293424c910c885814b0257
-      internalID: 1978281732
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -545,29 +356,29 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      TongueSpritesheet_0: -742349718
-      TongueSpritesheet_1: 117930625
+      TongueEnd: 158241151
+      TongueExtend1: -431527857
+      TongueExtend2: -2084721451
+      TongueExtend3: -109431508
+      TongueExtendStart: 117930625
+      TongueExtendStart2: -912375828
+      TongueRetract: 1978301264
+      TongueSplat: -972619138
       TongueSpritesheet_10: 1978281732
       TongueSpritesheet_11: 1272090808
       TongueSpritesheet_12: -2147411982
-      TongueSpritesheet_13: 1216411381
-      TongueSpritesheet_14: -972619138
-      TongueSpritesheet_15: 1978301264
-      TongueSpritesheet_16: 158241151
       TongueSpritesheet_17: -1218910153
       TongueSpritesheet_18: 1272687957
       TongueSpritesheet_19: -1468263775
-      TongueSpritesheet_2: -912375828
       TongueSpritesheet_20: -747687142
       TongueSpritesheet_21: -1058574217
       TongueSpritesheet_22: -1857863605
-      TongueSpritesheet_3: -431527857
-      TongueSpritesheet_4: -2084721451
       TongueSpritesheet_5: 1591823928
-      TongueSpritesheet_6: -109431508
       TongueSpritesheet_7: 422174678
       TongueSpritesheet_8: 1178398568
       TongueSpritesheet_9: -1620514610
+      TongueStart: -742349718
+      TongueStuck: 1216411381
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
