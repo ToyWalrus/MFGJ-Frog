@@ -7,8 +7,6 @@ using UnityEngine;
 public class MovingPlatform : MonoBehaviour
 {
     [SerializeField]  float moveRange;
-    [Header(" -1/1 positive means positive movement in the selected axis")]
-    [SerializeField]  int rangeDir = 1;
 
     private Transform player_Transform;
 
@@ -38,7 +36,7 @@ public class MovingPlatform : MonoBehaviour
         if(moveOnYAxis)
         {
             originalPos = transform.position.y;
-            moveDir = Vector3.up * moveSpeed *-1;
+            moveDir = Vector3.up * moveSpeed * -1;
         }
         else
         {
@@ -46,7 +44,7 @@ public class MovingPlatform : MonoBehaviour
             moveDir = Vector2.right * moveSpeed * -1;
         }
        
-        endPos = originalPos + moveRange * rangeDir;
+        endPos = originalPos + moveRange;
     }
 
     // Update is called once per frame
@@ -84,35 +82,20 @@ public class MovingPlatform : MonoBehaviour
         {
             currentPos = transform.position.x;
         }
-
-
-        if (rangeDir > 0)
+        if (currentPos < originalPos)//if reached original pos switch direction of movement
         {
-            if (currentPos < originalPos)//if reached original pos switch direction of movement
-            {
-                transform.position.Set(transform.position.x + unstuckOffset, originalPos, 0);
-                moveDir *= -1;
 
-            }
-            else if (currentPos > endPos) //if reached final pos switch direction of movement
-            {
-                transform.position.Set(transform.position.x - unstuckOffset, endPos, 0);
-                moveDir *= -1;
-            }
+            moveDir *= -1;
+            transform.Translate(moveDir * 0.02f);
+                
+
         }
-        else if (rangeDir < 0)
+        else if (currentPos > endPos) //if reached final pos switch direction of movement
         {
-            if (currentPos > originalPos)//if reached original pos switch direction of movement
-            {
-                moveDir *= -1;
-                transform.position.Set(originalPos,transform.position.y - unstuckOffset , 0);
-            }
-            else if (currentPos < endPos) //if reached final pos switch direction of movement
-            {
-                moveDir *= -1;
-                transform.position.Set(endPos, transform.position.y + unstuckOffset, 0);
-            }        
-         }
+                
+            moveDir *= -1;
+            transform.Translate(moveDir * 0.02f);
+        }
 
         transform.Translate(moveDir * Time.deltaTime);
 
