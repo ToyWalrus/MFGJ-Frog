@@ -105,7 +105,10 @@ public class PlayerInput : MonoBehaviour
             _jumpCooldownTimer = jumpCooldown;
         }
 
-        _jumpPressed = false;
+        if (!Input.GetKeyDown(KeyCode.Space))
+        {
+            _jumpPressed = false;
+        }
     }
 
     private void ResetJumpCount()
