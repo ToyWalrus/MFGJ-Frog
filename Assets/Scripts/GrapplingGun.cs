@@ -29,7 +29,7 @@ public class GrapplingGun : MonoBehaviour
     [SerializeField] private float maxRopeLengthAfterHooked = 3;
     [SerializeField] private float speedToDesiredRopeLength = 1;
 
-    public string grappleModeReadout = "";
+    [SerializeField] public string grappleModeReadout = "";
     private GrappleMode _grappleMode = GrappleMode.PullToPoint;
     public Vector2 _grapplePoint;
     private float _ropeLength;
@@ -42,6 +42,7 @@ public class GrapplingGun : MonoBehaviour
     private Rigidbody2D _rb;
     private Camera _cam;
 
+    //for moving the grapple hook when attached to a moving platform
     public Collider2D hitCollider;
     public bool hitACollider;
 
@@ -178,6 +179,7 @@ public class GrapplingGun : MonoBehaviour
 
         if (!HasFired || _hookIsSet)
         {
+            //when the hook is set update its position to match the grapple point, so it moves with moving platforms.
             _hookPosition = _grapplePoint;
             return;
         }

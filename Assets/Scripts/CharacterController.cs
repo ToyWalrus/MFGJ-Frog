@@ -6,7 +6,6 @@ using UnityEngine.Events;
 public class CharacterController : MonoBehaviour
 {
     [SerializeField] public float jumpForce = 1600f; // Amount of force added when the player jumps.
-    [SerializeField] public float jumpSideForce = 800f; // Ammount of force to add in the X axis when jumping
     [SerializeField, Range(0, .3f)] private float movementSmoothing = .05f; // How much to smooth out the movement
     [SerializeField] private LayerMask whatIsGround; // A mask determining what is ground to the character
     [SerializeField] private Transform groundCheck; // A position marking where to check if the player is grounded.
