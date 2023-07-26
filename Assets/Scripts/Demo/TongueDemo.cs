@@ -20,13 +20,18 @@ public class TongueDemo : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            transform.rotation = Quaternion.identity;
+            tongueController.transform.rotation = transform.rotation;
             tongueController.FlickTongue();
         }
 
         else if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            var length = Mathf.Abs(_cam.ScreenToWorldPoint(Input.mousePosition).x - transform.position.x);
-            tongueController.ExtendTongue(length, extendDuration, false);
+            var dir = (Vector2)_cam.ScreenToWorldPoint(Input.mousePosition) - (Vector2)transform.position;
+            transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
+            tongueController.transform.rotation = transform.rotation;
+
+            tongueController.ExtendTongue(dir.magnitude, extendDuration, false);
             Invoke("SetTongueStuck", extendDuration * .375f);
         }
 
