@@ -84,7 +84,7 @@ public class CharacterController : MonoBehaviour
             _rb.velocity = Vector3.zero;
         }
         
-        _rb.AddForce(Vector2.up * jumpForce + Vector2.right * _facingRightInt * jumpSideForce);
+        _rb.AddForce(Vector2.up * jumpForce);
     }
 
     private void GroundMovement(float move)
@@ -99,8 +99,13 @@ public class CharacterController : MonoBehaviour
 
     private void AirMovement(float move)
     {
-   
-       
+        var velocity = _rb.velocity;
+
+        // Move the character by finding the target velocity
+        Vector3 targetVelocity = new Vector2(move * 10f, velocity.y);
+        // And then smoothing it out and applying it to the character
+        _rb.velocity = Vector3.SmoothDamp(velocity, targetVelocity, ref _velocity, movementSmoothing);
+
     }
 
     private void CheckForReversedDirection(float move)
