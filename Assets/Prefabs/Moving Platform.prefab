@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15cea43c1e69be84cb149a24022d493e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveRange: 5
-  moveOnYAxis: 0
-  moveSpeed: 3.73
+  moveRange: 4
+  moveOnYAxis: 1
+  moveSpeed: 3.12
   platformGrappled: 0
