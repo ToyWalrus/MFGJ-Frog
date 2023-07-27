@@ -29,6 +29,7 @@ public class GrapplingGun : MonoBehaviour
     [SerializeField] private float maxRopeLengthAfterHooked = 3;
     [SerializeField] private float speedToDesiredRopeLength = 1;
 
+    [SerializeField] public string grappleModeReadout = "";
     private GrappleMode _grappleMode = GrappleMode.PullToPoint;
     public Vector2 _grapplePoint;
     private float _ropeLength;
@@ -36,6 +37,7 @@ public class GrapplingGun : MonoBehaviour
     private Vector2 _hookPosition;
     public bool _hookIsSet; // Whether the hook has reached the grapple point
     private bool _raycastDidHit;
+
 
     private Rigidbody2D _rb;
     private Camera _cam;
@@ -156,8 +158,8 @@ public class GrapplingGun : MonoBehaviour
         var normalizedDirection = directionVector.normalized;
 
         // Use raycast to check if we hit something
-        var hit = Physics2D.Raycast(firePosition, normalizedDirection, maxDistance, grappleLayers);
-
+        RaycastHit2D hit = Physics2D.Raycast(firePosition, normalizedDirection, maxDistance, grappleLayers);
+        
         _raycastDidHit = hit;
         hitCollider = hit.collider;
         _grapplePoint = hit ? hit.point : (normalizedDirection * maxDistance) + grapplePosition;
@@ -197,7 +199,6 @@ public class GrapplingGun : MonoBehaviour
             EndGrapple();
         }
     }
-
     private void HandleGrapple()
     {
         // Depending on the grapple mode, either pull the player towards the grapple point
@@ -205,9 +206,11 @@ public class GrapplingGun : MonoBehaviour
         switch (_grappleMode)
         {
             case GrappleMode.PullToPoint:
+                grappleModeReadout = "pull";
                 PullToPoint();
                 break;
             case GrappleMode.KeepAtDistance:
+                grappleModeReadout = "hold";
                 KeepAtDistance();
                 break;
             default:
@@ -250,13 +253,14 @@ public class GrapplingGun : MonoBehaviour
         joint.enabled = true;
     }
 
-    private void EndGrapple()
+    public void EndGrapple()
     {
         // Reset all the grapple variables
         grapplingRope.DisableRope();
         _ropeLength = float.MinValue;
         joint.enabled = false;
         _hookIsSet = false;
+        hitACollider = false; 
     }
 
     private void OnDrawGizmosSelected()

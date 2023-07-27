@@ -23,6 +23,7 @@ public class MovingPlatform : MonoBehaviour
 
     private bool riding;
 
+    private float unstuckOffset = 10f;
 
     public bool platformGrappled;
 
@@ -53,12 +54,12 @@ public class MovingPlatform : MonoBehaviour
         if (grapplingGun._hookIsSet)
         {
          
-            if (grapplingGun.hitCollider == gameObject.GetComponent<Collider2D>())
-            {
-                platformGrappled = true;
-            }
-            else
-            {
+                if (grapplingGun.hitCollider == gameObject.GetComponent<Collider2D>())
+                {
+                    platformGrappled = true;
+                }
+                else
+                {
                 platformGrappled = false;
             }
         }
