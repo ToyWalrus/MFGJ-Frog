@@ -42,9 +42,7 @@ public class GrapplingGun : MonoBehaviour
     private Rigidbody2D _rb;
     private Camera _cam;
 
-    //for moving the grapple hook when attached to a moving platform
     public Collider2D hitCollider;
-    public bool hitACollider;
 
     private bool HasFired => grapplingRope.IsDrawing;
     public bool IsGrappled => joint.enabled;
@@ -163,8 +161,7 @@ public class GrapplingGun : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(firePosition, normalizedDirection, maxDistance, grappleLayers);
         
         _raycastDidHit = hit;
-         hitCollider = hit.collider;
-         hitACollider = true;
+        hitCollider = hit.collider;
         _grapplePoint = hit ? hit.point : (normalizedDirection * maxDistance) + grapplePosition;
 
         // Enable the rope renderer and set the starting position
@@ -176,15 +173,11 @@ public class GrapplingGun : MonoBehaviour
     {
         // If we haven't fired, the RotateGun() method will update the hook position
         // If the hook is already set, we don't need to update the its position
-
         if (!HasFired || _hookIsSet)
         {
-            //when the hook is set update its position to match the grapple point, so it moves with moving platforms.
-            _hookPosition = _grapplePoint;
+            _hookPosition = _grapplePoint; //so that it moves with the moving platforms
             return;
         }
-                
-
         // Move the hook position towards the grapple point
         _hookPosition = Vector2.MoveTowards(_hookPosition, _grapplePoint, Time.deltaTime * fireSpeed);
 
@@ -267,7 +260,6 @@ public class GrapplingGun : MonoBehaviour
         _ropeLength = float.MinValue;
         joint.enabled = false;
         _hookIsSet = false;
-        hitACollider = false; 
     }
 
     private void OnDrawGizmosSelected()

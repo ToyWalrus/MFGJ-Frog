@@ -51,24 +51,17 @@ public class MovingPlatform : MonoBehaviour
 
     private void Update()
     {
-        if (grapplingGun._hookIsSet && grapplingGun.hitACollider)
+        if (grapplingGun._hookIsSet)
         {
-            try
-            {
+         
                 if (grapplingGun.hitCollider == gameObject.GetComponent<Collider2D>())
                 {
                     platformGrappled = true;
                 }
                 else
                 {
-                    platformGrappled = false;
-                }
-            }catch(NullReferenceException)
-            { 
-            Debug.Log("noCollider");
                 platformGrappled = false;
             }
-            
         }
     }
     void LateUpdate()
@@ -86,7 +79,7 @@ public class MovingPlatform : MonoBehaviour
         {
 
             moveDir *= -1;
-            transform.Translate(moveDir * 0.02f);
+            transform.Translate(moveDir * 0.05f);
                 
 
         }
@@ -94,7 +87,7 @@ public class MovingPlatform : MonoBehaviour
         {
                 
             moveDir *= -1;
-            transform.Translate(moveDir * 0.02f);
+            transform.Translate(moveDir * 0.05f);
         }
 
         transform.Translate(moveDir * Time.deltaTime);

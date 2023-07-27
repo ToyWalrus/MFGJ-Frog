@@ -144,5 +144,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _floatTimer: 2
-  fallingSpeed: 3.94
+  fallingSpeed: 7.56
   fallMaterial: {fileID: 2100000, guid: f3526ef21c62e724682acaf34440fac4, type: 2}
