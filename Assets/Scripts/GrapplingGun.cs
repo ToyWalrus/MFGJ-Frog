@@ -29,16 +29,22 @@ public class GrapplingGun : MonoBehaviour
     [SerializeField] private float maxRopeLengthAfterHooked = 3;
     [SerializeField] private float speedToDesiredRopeLength = 1;
 
+    [SerializeField] public string grappleModeReadout = "";
     private GrappleMode _grappleMode = GrappleMode.PullToPoint;
-    private Vector2 _grapplePoint;
+    public Vector2 _grapplePoint;
     private float _ropeLength;
 
     private Vector2 _hookPosition;
-    private bool _hookIsSet; // Whether the hook has reached the grapple point
+    public bool _hookIsSet; // Whether the hook has reached the grapple point
     private bool _raycastDidHit;
+
 
     private Rigidbody2D _rb;
     private Camera _cam;
+
+    //for moving the grapple hook when attached to a moving platform
+    public Collider2D hitCollider;
+    public bool hitACollider;
 
     private bool HasFired => grapplingRope.IsDrawing;
     public bool IsGrappled => joint.enabled;
@@ -154,9 +160,11 @@ public class GrapplingGun : MonoBehaviour
         var normalizedDirection = directionVector.normalized;
 
         // Use raycast to check if we hit something
-        var hit = Physics2D.Raycast(firePosition, normalizedDirection, maxDistance, grappleLayers);
-
+        RaycastHit2D hit = Physics2D.Raycast(firePosition, normalizedDirection, maxDistance, grappleLayers);
+        
         _raycastDidHit = hit;
+         hitCollider = hit.collider;
+         hitACollider = true;
         _grapplePoint = hit ? hit.point : (normalizedDirection * maxDistance) + grapplePosition;
 
         // Enable the rope renderer and set the starting position
@@ -168,7 +176,14 @@ public class GrapplingGun : MonoBehaviour
     {
         // If we haven't fired, the RotateGun() method will update the hook position
         // If the hook is already set, we don't need to update the its position
-        if (!HasFired || _hookIsSet) return;
+
+        if (!HasFired || _hookIsSet)
+        {
+            //when the hook is set update its position to match the grapple point, so it moves with moving platforms.
+            _hookPosition = _grapplePoint;
+            return;
+        }
+                
 
         // Move the hook position towards the grapple point
         _hookPosition = Vector2.MoveTowards(_hookPosition, _grapplePoint, Time.deltaTime * fireSpeed);
@@ -191,7 +206,6 @@ public class GrapplingGun : MonoBehaviour
             EndGrapple();
         }
     }
-
     private void HandleGrapple()
     {
         // Depending on the grapple mode, either pull the player towards the grapple point
@@ -199,9 +213,11 @@ public class GrapplingGun : MonoBehaviour
         switch (_grappleMode)
         {
             case GrappleMode.PullToPoint:
+                grappleModeReadout = "pull";
                 PullToPoint();
                 break;
             case GrappleMode.KeepAtDistance:
+                grappleModeReadout = "hold";
                 KeepAtDistance();
                 break;
             default:
@@ -244,13 +260,14 @@ public class GrapplingGun : MonoBehaviour
         joint.enabled = true;
     }
 
-    private void EndGrapple()
+    public void EndGrapple()
     {
         // Reset all the grapple variables
         grapplingRope.DisableRope();
         _ropeLength = float.MinValue;
         joint.enabled = false;
         _hookIsSet = false;
+        hitACollider = false; 
     }
 
     private void OnDrawGizmosSelected()

@@ -5,10 +5,11 @@ public class PlayerInput : MonoBehaviour
 {
     [SerializeField] private CharacterController controller;
     [SerializeField] private float speed = 15f;
-    [SerializeField] private GrapplingGun grappler;
+    [SerializeField] public GrapplingGun grappler;
 
     private float _movement = 0f;
     private bool _jumpPressed = false;
+    private bool _JumpReleased = true;
 
     [SerializeField, Tooltip("How long after jumping can the player jump again?")]
     private float jumpCooldown = 0.3f;
@@ -47,6 +48,19 @@ public class PlayerInput : MonoBehaviour
     // Move player
     private void FixedUpdate()
     {
+        
+        if (_jumpPressed)
+        {               
+            controller.Jump(grappler.IsGrappled, grappler.grappleModeReadout);
+
+            _jumpsSinceLastGrounded++;
+
+            if (grappler.IsGrappled)
+            {
+                grappler.EndGrapple();
+            }
+        }
+
         // Don't accept movement if we're grappling
         if (grappler != null && grappler.IsGrappled) return;
         
@@ -55,20 +69,18 @@ public class PlayerInput : MonoBehaviour
             controller.Move(_movement * speed * Time.fixedDeltaTime);
         }
 
-        if (_jumpPressed)
-        {
-            controller.Jump();
-            _jumpsSinceLastGrounded++;
-        }
 
+        
         ResetJumpPressed();
+
+        
     }
 
     private bool CheckCanJump(float deltaTime)
     {
         UpdateCoyoteTime(deltaTime);
         UpdateJumpCooldown(deltaTime);
-        return _jumpCooldownTimer <= 0f && (_jumpsSinceLastGrounded < maxJumps || _coyoteTimeTimer >= 0f);
+        return _jumpCooldownTimer <= 0f && !_jumpPressed && (_jumpsSinceLastGrounded < maxJumps || _coyoteTimeTimer >= 0f);
     }
 
     private void UpdateCoyoteTime(float deltaTime)
@@ -94,8 +106,7 @@ public class PlayerInput : MonoBehaviour
         {
             _jumpCooldownTimer = jumpCooldown;
         }
-
-        _jumpPressed = false;
+            _jumpPressed = false;
     }
 
     private void ResetJumpCount()

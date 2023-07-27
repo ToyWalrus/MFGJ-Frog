@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Linq.Expressions;
+using UnityEngine;
 using UnityEngine.Events;
 
 // Code derived from Brackey's movement tutorial https://youtu.be/dwcT-Dch0bA
 public class CharacterController : MonoBehaviour
 {
-    [SerializeField] private float jumpForce = 400f; // Amount of force added when the player jumps.
+    [SerializeField] public float jumpForce = 1600f; // Amount of force added when the player jumps.
     [SerializeField, Range(0, .3f)] private float movementSmoothing = .05f; // How much to smooth out the movement
     [SerializeField] private LayerMask whatIsGround; // A mask determining what is ground to the character
     [SerializeField] private Transform groundCheck; // A position marking where to check if the player is grounded.
@@ -18,6 +19,7 @@ public class CharacterController : MonoBehaviour
     private bool _grounded; // Whether or not the player is grounded.
     private Rigidbody2D _rb;
     private bool _facingRight = true; // For determining which way the player is currently facing.
+    private int _facingRightInt = 1; //For calculating movement direction on jump more easily
     private Vector3 _velocity = Vector3.zero; // Velocity of the player. Managed by the SmoothDamp function.
 
     [Space(20)]
@@ -72,11 +74,16 @@ public class CharacterController : MonoBehaviour
         CheckForReversedDirection(move);
     }
 
-    public void Jump()
+    public void Jump( bool grappling, string grappleMode)
     {
         // If the player should jump...
         // Add a vertical force to the player.
-        _rb.AddForce(new Vector2(0f, jumpForce));
+        if (grappleMode == "hold" || !grappling)
+        {
+            _rb.velocity = Vector3.zero;
+        }
+        
+        _rb.AddForce(Vector2.up * jumpForce);
     }
 
     private void GroundMovement(float move)
@@ -84,7 +91,7 @@ public class CharacterController : MonoBehaviour
         var velocity = _rb.velocity;
 
         // Move the character by finding the target velocity
-        Vector3 targetVelocity = new Vector2(move * 10f, velocity.y);
+        Vector3 targetVelocity = new Vector2(move * 15f, velocity.y);
         // And then smoothing it out and applying it to the character
         _rb.velocity = Vector3.SmoothDamp(velocity, targetVelocity, ref _velocity, movementSmoothing);
     }
@@ -93,10 +100,11 @@ public class CharacterController : MonoBehaviour
     {
         var velocity = _rb.velocity;
 
-        // Half movement speed in the air
-        Vector3 targetVelocity = new Vector2(move * 5f, velocity.y);
+        // Move the character by finding the target velocity
+        Vector3 targetVelocity = new Vector2(move * 10f, velocity.y);
         // And then smoothing it out and applying it to the character
         _rb.velocity = Vector3.SmoothDamp(velocity, targetVelocity, ref _velocity, movementSmoothing);
+
     }
 
     private void CheckForReversedDirection(float move)
@@ -115,6 +123,7 @@ public class CharacterController : MonoBehaviour
     {
         // Switch the way the player is labelled as facing.
         _facingRight = !_facingRight;
+        _facingRightInt *= -1;
 
         // Multiply the player's x local scale by -1.
         var scale = transform.localScale;
