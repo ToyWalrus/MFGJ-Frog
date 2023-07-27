@@ -109,6 +109,11 @@ MonoBehaviour:
   fireSpeed: 30
   maxRopeLengthAfterHooked: 2.5
   speedToDesiredRopeLength: 2
+  grappleModeReadout: 
+  _grapplePoint: {x: 0, y: 0}
+  _hookIsSet: 0
+  hitCollider: {fileID: 0}
+  hitACollider: 0
 --- !u!1 &2101381280349634846
 GameObject:
   m_ObjectHideFlags: 0
