@@ -9,10 +9,7 @@ public class PlayerInput : MonoBehaviour
 
     private float _movement = 0f;
     private bool _jumpPressed = false;
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
     [SerializeField, Tooltip("How long after jumping can the player jump again?")]
     private float jumpCooldown = 0.3f;
     private float _jumpCooldownTimer = 0f;

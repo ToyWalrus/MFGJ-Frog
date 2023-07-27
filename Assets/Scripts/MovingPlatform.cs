@@ -50,24 +50,17 @@ public class MovingPlatform : MonoBehaviour
 
     private void Update()
     {
-        if (grapplingGun._hookIsSet && grapplingGun.hitACollider)
+        if (grapplingGun._hookIsSet)
         {
-            try
+         
+            if (grapplingGun.hitCollider == gameObject.GetComponent<Collider2D>())
             {
-                if (grapplingGun.hitCollider == gameObject.GetComponent<Collider2D>())
-                {
-                    platformGrappled = true;
-                }
-                else
-                {
-                    platformGrappled = false;
-                }
-            }catch(NullReferenceException)
-            { 
-            Debug.Log("noCollider");
+                platformGrappled = true;
+            }
+            else
+            {
                 platformGrappled = false;
             }
-            
         }
     }
     void LateUpdate()
