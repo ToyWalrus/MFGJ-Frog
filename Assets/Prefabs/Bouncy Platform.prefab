@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 278479000576139433}
   - component: {fileID: 2657065522420378914}
+  - component: {fileID: 8660611605140993992}
   - component: {fileID: 8436632428215865064}
-  - component: {fileID: 4794456871604951304}
   m_Layer: 6
   m_Name: Bouncy Platform
   m_TagString: Untagged
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.5849056, g: 0.049218904, b: 0.0027589954, a: 1}
+  m_Color: {r: 0.9622642, g: 0.18022245, b: 0.086240634, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -86,6 +86,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8660611605140993992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8685361910262327520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdf2fe2d505864f439cd032876831c91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bounceForce: 20
 --- !u!61 &8436632428215865064
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -131,16 +144,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &4794456871604951304
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8685361910262327520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b189222f0e38bd9498e555603fd70bef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bounceForce: 20

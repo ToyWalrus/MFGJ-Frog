@@ -260,7 +260,6 @@ public class GrapplingGun : MonoBehaviour
         _ropeLength = float.MinValue;
         joint.enabled = false;
         _hookIsSet = false;
-        hitACollider = false; 
     }
 
     private void OnDrawGizmosSelected()
