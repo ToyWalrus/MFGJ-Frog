@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 using Utils;
 
 public class GrapplingGun : MonoBehaviour
@@ -14,7 +15,7 @@ public class GrapplingGun : MonoBehaviour
     }
 
 
-    public GrapplingRope grapplingRope;
+    // public GrapplingRope grapplingRope;
 
     [SerializeField] private LayerMask grappleLayers;
     [SerializeField] private float maxDistance = 10;
@@ -31,20 +32,23 @@ public class GrapplingGun : MonoBehaviour
 
     [SerializeField] public string grappleModeReadout = "";
     private GrappleMode _grappleMode = GrappleMode.PullToPoint;
-    public Vector2 _grapplePoint;
+    [HideInInspector] public Vector2 grapplePoint;
     private float _ropeLength;
 
     private Vector2 _hookPosition;
-    public bool _hookIsSet; // Whether the hook has reached the grapple point
+    [HideInInspector] public bool hookIsSet; // Whether the hook has reached the grapple point
     private bool _raycastDidHit;
 
+    [Space(10)]
+    public UnityEvent<Vector2, bool> onGrappleFire;
+    public UnityEvent onGrappleRelease;
 
     private Rigidbody2D _rb;
     private Camera _cam;
 
-    public Collider2D hitCollider;
+    [HideInInspector] public Collider2D hitCollider;
 
-    private bool HasFired => grapplingRope.IsDrawing;
+    private bool _hasFired = false; 
     public bool IsGrappled => joint.enabled;
 
     private void Start()
@@ -63,15 +67,18 @@ public class GrapplingGun : MonoBehaviour
             Debug.LogError("The player must have a Rigidbody2D component attached to it");
         }
 
-        if (grapplingRope == null)
-        {
-            Debug.LogError("The GrapplingGun component must have a GrapplingRope component reference");
-        }
+        // if (grapplingRope == null)
+        // {
+        //     Debug.LogError("The GrapplingGun component must have a GrapplingRope component reference");
+        // }
 
         // Reset grapple variables on start
         _ropeLength = float.MinValue;
         joint.enabled = false;
-        _hookIsSet = false;
+        hookIsSet = false;
+
+        onGrappleFire ??= new UnityEvent<Vector2, bool>();
+        onGrappleRelease ??= new UnityEvent();
     }
 
     private void Update()
@@ -80,7 +87,7 @@ public class GrapplingGun : MonoBehaviour
         HandleInputHeld();
         HandleInputUp();
 
-        if (HasFired) return;
+        if (_hasFired) return;
 
         // Rotate the gun to face the mouse when not grappling
         RotateGun(_cam.ScreenToWorldPoint(Input.mousePosition));
@@ -93,7 +100,7 @@ public class GrapplingGun : MonoBehaviour
         var neitherInputPressed = !fire1JustPressed && !fire2JustPressed;
 
         // If we have already fired or neither input was just pressed, do nothing
-        if (HasFired || neitherInputPressed) return;
+        if (_hasFired || neitherInputPressed) return;
 
         // "Fire1" will pull the player towards the grapple point
         // "Fire2" will keep the player at a set distance from the grapple point
@@ -108,12 +115,12 @@ public class GrapplingGun : MonoBehaviour
         // If neither input is being held, do nothing
         if (!Input.GetButton("Fire1") && !Input.GetButton("Fire2")) return;
 
-        RotateGun(_grapplePoint);
+        RotateGun(grapplePoint);
         UpdateHookPosition();
 
-        grapplingRope.DrawRope(firePoint.position, _hookPosition, _hookIsSet);
+        // grapplingRope.DrawRope(firePoint.position, _hookPosition, _hookIsSet);
 
-        if (_hookIsSet && _raycastDidHit)
+        if (hookIsSet && _raycastDidHit)
         {
             // If the hook has reached the grapple point and we hit something, handle the grapple
             HandleGrapple();
@@ -130,7 +137,7 @@ public class GrapplingGun : MonoBehaviour
         var buttonWasNotReleased = !Input.GetButtonUp("Fire1") && !Input.GetButtonUp("Fire2");
 
         // If we haven't yet fired or neither input was just released, do nothing
-        if (!HasFired || buttonWasNotReleased) return;
+        if (!_hasFired || buttonWasNotReleased) return;
 
         EndGrapple();
     }
@@ -142,7 +149,7 @@ public class GrapplingGun : MonoBehaviour
 
         grapplePivot.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-        if (!HasFired)
+        if (!_hasFired)
         {
             // Update the hook position to be the firePoint if we haven't fired yet
             _hookPosition = firePoint.position;
@@ -162,35 +169,38 @@ public class GrapplingGun : MonoBehaviour
         
         _raycastDidHit = hit;
         hitCollider = hit.collider;
-        _grapplePoint = hit ? hit.point : (normalizedDirection * maxDistance) + grapplePosition;
+        grapplePoint = hit ? hit.point : (normalizedDirection * maxDistance) + grapplePosition;
 
         // Enable the rope renderer and set the starting position
-        grapplingRope.EnableRope(firePosition, _grapplePoint - grapplePosition);
+        // grapplingRope.EnableRope(firePosition, _grapplePoint - grapplePosition);
+        _hasFired = true;
         _hookPosition = firePosition;
+        
+        onGrappleFire.Invoke(grapplePoint, hitCollider);
     }
 
     private void UpdateHookPosition()
     {
         // If we haven't fired, the RotateGun() method will update the hook position
         // If the hook is already set, we don't need to update the its position
-        if (!HasFired || _hookIsSet)
+        if (!_hasFired || hookIsSet)
         {
-            _hookPosition = _grapplePoint; //so that it moves with the moving platforms
+            _hookPosition = grapplePoint; //so that it moves with the moving platforms
             return;
         }
         // Move the hook position towards the grapple point
-        _hookPosition = Vector2.MoveTowards(_hookPosition, _grapplePoint, Time.deltaTime * fireSpeed);
+        _hookPosition = Vector2.MoveTowards(_hookPosition, grapplePoint, Time.deltaTime * fireSpeed);
 
         // If the hook is close enough to the grapple point, snap it to the grapple point
-        _hookIsSet = _hookPosition == _grapplePoint;
+        hookIsSet = _hookPosition == grapplePoint;
 
-        if (!_hookIsSet || _raycastDidHit) return;
+        if (!hookIsSet || _raycastDidHit) return;
 
         // Do one last check that we haven't hit something
         var hitCheck = Physics2D.OverlapCircle(_hookPosition, GrappleHookCheckRadius, grappleLayers);
         if (hitCheck)
         {
-            _grapplePoint = hitCheck.ClosestPoint(_hookPosition);
+            grapplePoint = hitCheck.ClosestPoint(_hookPosition);
             _raycastDidHit = true;
         }
         else
@@ -221,7 +231,7 @@ public class GrapplingGun : MonoBehaviour
     private void PullToPoint()
     {
         // Connect the spring joint at the point we hit the collider (grapplePoint)
-        joint.connectedAnchor = _grapplePoint;
+        joint.connectedAnchor = grapplePoint;
 
         // Set the distance to the distance between the player and the fire point
         // (so the player doesn't get pulled in too close)
@@ -238,7 +248,7 @@ public class GrapplingGun : MonoBehaviour
     {
         if (MathHelpers.FloatEquals(_ropeLength, float.MinValue))
         {
-            var dist = Vector2.Distance(firePoint.position, _grapplePoint);
+            var dist = Vector2.Distance(firePoint.position, grapplePoint);
             _ropeLength = Math.Min(dist, maxRopeLengthAfterHooked);
         }
 
@@ -249,17 +259,20 @@ public class GrapplingGun : MonoBehaviour
         // joint.autoConfigureDistance = true;
         // joint.frequency = 0;
 
-        joint.connectedAnchor = _grapplePoint;
+        joint.connectedAnchor = grapplePoint;
         joint.enabled = true;
     }
 
     public void EndGrapple()
     {
         // Reset all the grapple variables
-        grapplingRope.DisableRope();
+        // grapplingRope.DisableRope();
+        _hasFired = false;
         _ropeLength = float.MinValue;
         joint.enabled = false;
-        _hookIsSet = false;
+        hookIsSet = false;
+        
+        onGrappleRelease.Invoke();
     }
 
     private void OnDrawGizmosSelected()

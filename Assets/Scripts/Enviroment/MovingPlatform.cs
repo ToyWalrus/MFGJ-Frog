@@ -51,7 +51,7 @@ public class MovingPlatform : MonoBehaviour
 
     private void Update()
     {
-        if (grapplingGun._hookIsSet)
+        if (grapplingGun.hookIsSet)
         {
          
                 if (grapplingGun.hitCollider == gameObject.GetComponent<Collider2D>())
@@ -101,7 +101,7 @@ public class MovingPlatform : MonoBehaviour
         }
         if (platformGrappled == true)
         {
-            grapplingGun._grapplePoint += (moveDir * Time.deltaTime);
+            grapplingGun.grapplePoint += (moveDir * Time.deltaTime);
         }
   
         

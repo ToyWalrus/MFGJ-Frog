@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,9 +8,12 @@ public class FrogAnimator : MonoBehaviour
 {
     private Animator _anim;
     private static readonly int MovingAnimProperty = Animator.StringToHash("Moving");
-    private static readonly int JumpingAnimProperty = Animator.StringToHash("Jumping");
     private static readonly int SwingingAnimProperty = Animator.StringToHash("Swinging");
+    private static readonly int GroundedAnimProperty = Animator.StringToHash("Grounded");
     private static readonly int QuickAnimProperty = Animator.StringToHash("Quick");
+    private static readonly int JumpAnimProperty = Animator.StringToHash("Jump");
+ 
+    private Vector2 _hitPoint;
 
     // Start is called before the first frame update
     private void Start()
@@ -17,18 +21,56 @@ public class FrogAnimator : MonoBehaviour
         _anim = GetComponent<Animator>();
     }
 
-    public void SetIsMoving(bool isMoving)
+    private void Update()
+    {
+        var isSwinging = _anim.GetBool(SwingingAnimProperty);
+        if (!isSwinging)
+        {
+            transform.rotation = Quaternion.identity;
+            return;
+        }
+
+        var dirVector = _hitPoint - (Vector2)transform.position;
+        var angle = Mathf.Atan2(dirVector.y, dirVector.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+        
+        // Always make sure sprite is facing the right direction while swinging
+        transform.localScale = Vector3.one;
+    }
+
+    public void SetIsGrounded(bool grounded)
+    {
+        _anim.SetBool(GroundedAnimProperty, grounded);
+    }
+
+
+    public void SetIsMoving(bool isMoving, int dir)
     {
         _anim.SetBool(MovingAnimProperty, isMoving);
+
+        if (dir < 0)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else if (dir > 0)
+        {
+            transform.localScale = Vector3.one;
+        }
     }
-    
-    public void SetIsJumping(bool isJumping)
+
+    public void TriggerJump()
     {
-        _anim.SetBool(JumpingAnimProperty, isJumping);
+        _anim.SetTrigger(JumpAnimProperty);
     }
-    
+
     public void SetIsSwinging(bool isSwinging)
     {
+        SetIsSwinging(isSwinging, _hitPoint);
+    }
+
+    public void SetIsSwinging(bool isSwinging, Vector2 hitPoint)
+    {
+        _hitPoint = hitPoint;
         _anim.SetBool(SwingingAnimProperty, isSwinging);
     }
 
