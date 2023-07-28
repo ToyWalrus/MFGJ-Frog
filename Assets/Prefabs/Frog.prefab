@@ -47,7 +47,7 @@ MonoBehaviour:
   grappleLayers:
     serializedVersion: 2
     m_Bits: 192
-  maxDistance: 7.5
+  maxDistance: 10
   joint: {fileID: 9118389713084155941}
   grapplePivot: {fileID: 5871658098398038450}
   firePoint: {fileID: 5871658098398038450}
@@ -379,7 +379,7 @@ MonoBehaviour:
   speed: 20
   jumpCooldown: 0.3
   coyoteTime: 0.1
-  maxJumps: 2
+  maxJumps: 1
 --- !u!50 &892641490785053821
 Rigidbody2D:
   serializedVersion: 4
