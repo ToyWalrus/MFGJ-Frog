@@ -3,9 +3,10 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
+    public GrapplingGun grappler;
+    public FrogAnimator frogAnimator;
     [SerializeField] private CharacterController controller;
     [SerializeField] private float speed = 15f;
-    [SerializeField] public GrapplingGun grappler;
 
     private float _movement = 0f;
     private bool _jumpPressed = false;
@@ -28,11 +29,15 @@ public class PlayerInput : MonoBehaviour
     private void OnEnable()
     {
         controller.onLandEvent.AddListener(ResetJumpCount);
+        grappler.onGrappleFire.AddListener(OnFireGrapple);
+        grappler.onGrappleRelease.AddListener(OnReleaseGrapple);
     }
 
     private void OnDisable()
     {
         controller.onLandEvent.RemoveListener(ResetJumpCount);
+        grappler.onGrappleFire.RemoveListener(OnFireGrapple);
+        grappler.onGrappleRelease.RemoveListener(OnReleaseGrapple);
     }
 
     // Get input
@@ -48,9 +53,8 @@ public class PlayerInput : MonoBehaviour
     // Move player
     private void FixedUpdate()
     {
-        
         if (_jumpPressed)
-        {               
+        {
             controller.Jump(grappler.IsGrappled, grappler.grappleModeReadout);
 
             _jumpsSinceLastGrounded++;
@@ -61,19 +65,19 @@ public class PlayerInput : MonoBehaviour
             }
         }
 
+        frogAnimator.SetIsGrounded(controller.IsGrounded());
+
         // Don't accept movement if we're grappling
         if (grappler != null && grappler.IsGrappled) return;
-        
+
+        frogAnimator.SetIsMoving(_movement != 0 && !grappler.IsGrappled, Math.Sign(_movement));
+
         if (_movement != 0f)
         {
             controller.Move(_movement * speed * Time.fixedDeltaTime);
         }
 
-
-        
         ResetJumpPressed();
-
-        
     }
 
     private bool CheckCanJump(float deltaTime)
@@ -99,18 +103,36 @@ public class PlayerInput : MonoBehaviour
     {
         _jumpCooldownTimer -= deltaTime;
     }
-    
+
     private void ResetJumpPressed()
     {
         if (_jumpPressed)
         {
             _jumpCooldownTimer = jumpCooldown;
         }
-            _jumpPressed = false;
+
+        _jumpPressed = false;
     }
 
     private void ResetJumpCount()
     {
         _jumpsSinceLastGrounded = 0;
+    }
+
+    private void OnFireGrapple(Vector2 hitPoint, bool didHitSurface)
+    {
+        if (didHitSurface)
+        {
+            frogAnimator.SetIsSwinging(true, hitPoint);
+        }
+        else
+        {
+            frogAnimator.FlickTongue();
+        }
+    }
+
+    private void OnReleaseGrapple()
+    {
+        frogAnimator.SetIsSwinging(false);
     }
 }
