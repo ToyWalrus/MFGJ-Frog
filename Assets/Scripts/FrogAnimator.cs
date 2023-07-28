@@ -10,10 +10,10 @@ public class FrogAnimator : MonoBehaviour
 
     private Animator _anim;
     private static readonly int MovingAnimProperty = Animator.StringToHash("Moving");
-    private static readonly int JumpingAnimProperty = Animator.StringToHash("Jumping");
     private static readonly int SwingingAnimProperty = Animator.StringToHash("Swinging");
     private static readonly int GroundedAnimProperty = Animator.StringToHash("Grounded");
     private static readonly int QuickAnimProperty = Animator.StringToHash("Quick");
+    private static readonly int JumpAnimProperty = Animator.StringToHash("Jump");
 
     private float _tongueDistance;
     private Vector2 _hitPoint;
@@ -23,7 +23,7 @@ public class FrogAnimator : MonoBehaviour
     {
         _anim = GetComponent<Animator>();
     }
-    
+
     private void Update()
     {
         if (!_anim.GetBool(SwingingAnimProperty))
@@ -32,7 +32,7 @@ public class FrogAnimator : MonoBehaviour
             return;
         }
 
-        var dirVector = _hitPoint - (Vector2) transform.position;
+        var dirVector = _hitPoint - (Vector2)transform.position;
         var angle = Mathf.Atan2(dirVector.y, dirVector.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
     }
@@ -46,7 +46,7 @@ public class FrogAnimator : MonoBehaviour
     public void SetIsMoving(bool isMoving, int dir)
     {
         _anim.SetBool(MovingAnimProperty, isMoving);
-        
+
         if (dir < 0)
         {
             transform.localScale = new Vector3(-1, 1, 1);
@@ -57,9 +57,9 @@ public class FrogAnimator : MonoBehaviour
         }
     }
 
-    public void SetIsJumping(bool isJumping)
+    public void TriggerJump()
     {
-        _anim.SetBool(JumpingAnimProperty, isJumping);
+        _anim.SetTrigger(JumpAnimProperty);
     }
 
     public void SetIsSwinging(bool isSwinging)
@@ -84,7 +84,7 @@ public class FrogAnimator : MonoBehaviour
                 EnableFallingAnimation();
                 return;
             }
-            
+
             tongueController.RetractTongue(.3f);
             Invoke("EnableFallingAnimation", .3f);
         }
@@ -98,6 +98,7 @@ public class FrogAnimator : MonoBehaviour
     private void ExtendTongue()
     {
         if (tongueController == null) return;
+
         tongueController.ExtendTongue(_tongueDistance, .2f, false);
     }
 

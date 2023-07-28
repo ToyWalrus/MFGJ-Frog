@@ -13,7 +13,11 @@ public class MovementAnimationDemo : MonoBehaviour
         var movement = Input.GetAxisRaw("Horizontal");
 
         frogAnimator.SetIsMoving(movement != 0, 0);
-        frogAnimator.SetIsJumping(Input.GetButton("Jump"));
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            frogAnimator.TriggerJump();
+        }
 
         if (Input.GetButtonDown("Fire1"))
         {

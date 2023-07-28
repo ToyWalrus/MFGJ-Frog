@@ -56,6 +56,7 @@ public class PlayerInput : MonoBehaviour
         if (_jumpPressed)
         {
             controller.Jump(grappler.IsGrappled, grappler.grappleModeReadout);
+            frogAnimator.TriggerJump();
 
             _jumpsSinceLastGrounded++;
 
@@ -84,7 +85,10 @@ public class PlayerInput : MonoBehaviour
     {
         UpdateCoyoteTime(deltaTime);
         UpdateJumpCooldown(deltaTime);
-        return _jumpCooldownTimer <= 0f && !_jumpPressed && (_jumpsSinceLastGrounded < maxJumps || _coyoteTimeTimer >= 0f);
+
+        if (_jumpCooldownTimer > 0f) return false;
+
+        return _coyoteTimeTimer >= 0f || _jumpsSinceLastGrounded < maxJumps;
     }
 
     private void UpdateCoyoteTime(float deltaTime)
