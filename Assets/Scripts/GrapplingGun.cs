@@ -36,12 +36,15 @@ public class GrapplingGun : MonoBehaviour
     private float _ropeLength;
 
     private Vector2 _hookPosition;
+    public Vector2 HookPosition => _hookPosition;
     [HideInInspector] public bool hookIsSet; // Whether the hook has reached the grapple point
     private bool _raycastDidHit;
 
     [Space(10)]
     public UnityEvent<Vector2, bool> onGrappleFire;
+    public UnityEvent onHookSet;
     public UnityEvent onGrappleRelease;
+    
 
     private Rigidbody2D _rb;
     private Camera _cam;
@@ -79,6 +82,7 @@ public class GrapplingGun : MonoBehaviour
 
         onGrappleFire ??= new UnityEvent<Vector2, bool>();
         onGrappleRelease ??= new UnityEvent();
+        onHookSet ??= new UnityEvent();
     }
 
     private void Update()
@@ -194,6 +198,11 @@ public class GrapplingGun : MonoBehaviour
         // If the hook is close enough to the grapple point, snap it to the grapple point
         hookIsSet = _hookPosition == grapplePoint;
 
+        if (hookIsSet)
+        {
+            onHookSet.Invoke();
+        }
+
         if (!hookIsSet || _raycastDidHit) return;
 
         // Do one last check that we haven't hit something
@@ -235,7 +244,7 @@ public class GrapplingGun : MonoBehaviour
 
         // Set the distance to the distance between the player and the fire point
         // (so the player doesn't get pulled in too close)
-        joint.distance = Vector2.Distance(firePoint.position, joint.transform.position);
+        joint.distance = Vector2.Distance(firePoint.position, joint.transform.position) + 2f;
 
         // Set the spring joint's frequency to 0 so it doesn't oscillate
         joint.frequency = 0;

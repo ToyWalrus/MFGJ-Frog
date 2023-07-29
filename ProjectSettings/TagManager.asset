@@ -38,6 +38,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 1540346015
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Frog
+    uniqueID: 3324467773
+    locked: 0
+  - name: Tongue
+    uniqueID: 4042213485
+    locked: 0
+  - name: Foreground
+    uniqueID: 1312602133
     locked: 0

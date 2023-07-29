@@ -5,122 +5,40 @@ using UnityEngine;
 
 public class TongueController : MonoBehaviour
 {
-    [SerializeField] private Animator tongueAnimator;
-    [SerializeField] private SpriteRenderer tongueSpriteRenderer;
+    [SerializeField] private GrapplingGun grapplingGun;
 
-    private static readonly int QuickTongueAnimProperty = Animator.StringToHash("Quick");
-    private static readonly int ButtonHeldAnimProperty = Animator.StringToHash("ButtonHeld");
-    private static readonly int StuckAnimProperty = Animator.StringToHash("Stuck");
+    [Space(10)]
+    [SerializeField] private SpriteRenderer tongueSegmentSpriteRenderer;
+    [SerializeField] private SpriteRenderer tongueEndSpriteRenderer;
+    [SerializeField] private Sprite tongueEndSprite;
+    [SerializeField] private Sprite tongueStuckSprite;
 
-    private const float TongueExtendAnimDuration = .375f;
-    private const float TongueRetractAnimDuration = .375f;
-    private const float FlickAnimDuration = .375f;
-    private const float Framerate = 1f / 24f;
-
-    private float _baseTongueSizeX;
-
-    private void Start()
+    private void Update()
     {
-        _baseTongueSizeX = tongueSpriteRenderer.size.x;
+        var dir = grapplingGun.grapplePoint - (Vector2)transform.position;
+        var hookDistance = Vector2.Distance(grapplingGun.HookPosition, tongueSegmentSpriteRenderer.transform.position);
+        var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+        tongueEndSpriteRenderer.transform.position = grapplingGun.HookPosition - (dir.normalized * 1.2f);
+        tongueSegmentSpriteRenderer.size = new Vector2(hookDistance, tongueSegmentSpriteRenderer.size.y);
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
-    public void FlickTongue()
+    // Controller will be enabled when the hook is fired, and disabled when the hook is released
+    private void OnEnable()
     {
-        float duration = .458f;
-        StopAllCoroutines();
+        tongueEndSpriteRenderer.sprite = tongueEndSprite;
 
-        tongueAnimator.speed = duration / FlickAnimDuration;
-        tongueAnimator.SetTrigger(QuickTongueAnimProperty);
-        StartCoroutine(ExtendTongueDuringFlick(duration * FlickAnimDuration));
+        grapplingGun.onHookSet.AddListener(OnHookSet);
     }
 
-    public void ExtendTongue(float distance, float duration = .5f, bool retractAfterDuration = true)
+    private void OnDisable()
     {
-        StopAllCoroutines();
-
-        tongueAnimator.speed = duration / TongueExtendAnimDuration;
-        tongueAnimator.SetBool(ButtonHeldAnimProperty, true);
-        StartCoroutine(ExtendTongueOverDuration(distance, duration * TongueExtendAnimDuration, retractAfterDuration));
+        grapplingGun.onHookSet.RemoveListener(OnHookSet);
     }
 
-    public void SetTongueStuck(bool isStuck)
+    private void OnHookSet()
     {
-        tongueAnimator.SetBool(StuckAnimProperty, isStuck);
-    }
-
-    public void RetractTongue(float duration = .3f)
-    {
-        StopAllCoroutines();
-
-        tongueAnimator.speed = duration / TongueRetractAnimDuration;
-        tongueAnimator.SetBool(ButtonHeldAnimProperty, false);
-        StartCoroutine(RetractTongueOverDuration(duration * TongueRetractAnimDuration));
-    }
-
-    private IEnumerator ExtendTongueDuringFlick(float duration)
-    {
-        var startTime = Time.time;
-        var sizeY = tongueSpriteRenderer.size.y;
-
-        ResetTongueSize();
-
-        while (Time.time - startTime < duration)
-        {
-            var stepSize = GetStepSize(1.17f, duration);
-            tongueSpriteRenderer.size = new Vector2(tongueSpriteRenderer.size.x + stepSize, sizeY);
-            yield return new WaitForSeconds(Framerate);
-        }
-
-        ResetTongueSize();
-    }
-
-    // This is separate from the animation -- this is stretching the tongue sprite
-    private IEnumerator ExtendTongueOverDuration(float distance, float duration, bool retractAfterDuration)
-    {
-        var startTime = Time.time;
-        var sizeY = tongueSpriteRenderer.size.y;
-
-        ResetTongueSize();
-
-        while (Time.time - startTime < duration)
-        {
-            var stepSize = GetStepSize(distance, duration);
-            tongueSpriteRenderer.size = new Vector2(tongueSpriteRenderer.size.x + stepSize, sizeY);
-            yield return new WaitForSeconds(Framerate);
-        }
-
-        if (retractAfterDuration)
-        {
-            RetractTongue();
-        }
-    }
-
-    private IEnumerator RetractTongueOverDuration(float duration)
-    {
-        var startTime = Time.time;
-        var size = tongueSpriteRenderer.size;
-        var distance = size.x - _baseTongueSizeX;
-        var sizeY = size.y;
-
-
-        while (Time.time - startTime < duration)
-        {
-            var stepSize = GetStepSize(distance, duration);
-            tongueSpriteRenderer.size =
-                new Vector2(Mathf.Max(tongueSpriteRenderer.size.x - stepSize, _baseTongueSizeX), sizeY);
-            yield return new WaitForSeconds(Framerate);
-        }
-
-        ResetTongueSize();
-    }
-
-    private float GetStepSize(float distance, float duration)
-    {
-        return Framerate * distance / duration;
-    }
-
-    private void ResetTongueSize()
-    {
-        tongueSpriteRenderer.size = new Vector2(_baseTongueSizeX, tongueSpriteRenderer.size.y);
+        tongueEndSpriteRenderer.sprite = tongueStuckSprite;
     }
 }
