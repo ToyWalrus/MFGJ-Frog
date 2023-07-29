@@ -402,6 +402,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2670736552296107461, guid: cfbb52f69fe25754793b65e907df98fb, type: 3}
+      propertyPath: fireSpeed
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2670736552296107461, guid: cfbb52f69fe25754793b65e907df98fb, type: 3}
       propertyPath: maxDistance
       value: 20
       objectReference: {fileID: 0}
