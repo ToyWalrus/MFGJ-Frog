@@ -361,26 +361,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 892641490785053821, guid: cfbb52f69fe25754793b65e907df98fb, type: 3}
-      propertyPath: m_LinearDrag
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 1183343935030536270, guid: cfbb52f69fe25754793b65e907df98fb, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1.69
-      objectReference: {fileID: 0}
-    - target: {fileID: 1183343935030536270, guid: cfbb52f69fe25754793b65e907df98fb, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.22
-      objectReference: {fileID: 0}
-    - target: {fileID: 1328755109073285878, guid: cfbb52f69fe25754793b65e907df98fb, type: 3}
-      propertyPath: jumpForce
-      value: 600
-      objectReference: {fileID: 0}
-    - target: {fileID: 1328755109073285878, guid: cfbb52f69fe25754793b65e907df98fb, type: 3}
-      propertyPath: groundLinearDrag
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 2615561248249832127, guid: cfbb52f69fe25754793b65e907df98fb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -421,33 +401,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2670736552296107461, guid: cfbb52f69fe25754793b65e907df98fb, type: 3}
-      propertyPath: fireSpeed
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 2670736552296107461, guid: cfbb52f69fe25754793b65e907df98fb, type: 3}
-      propertyPath: maxDistance
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 2670736552296107461, guid: cfbb52f69fe25754793b65e907df98fb, type: 3}
-      propertyPath: maxRopeLengthAfterHooked
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4488343454426277532, guid: cfbb52f69fe25754793b65e907df98fb, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5469658485357244550, guid: cfbb52f69fe25754793b65e907df98fb, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -197895188, guid: 2979977f3b5620d4c8e0a95318be226f, type: 3}
     - target: {fileID: 6262154591235707452, guid: cfbb52f69fe25754793b65e907df98fb, type: 3}
       propertyPath: m_Name
       value: Frog
-      objectReference: {fileID: 0}
-    - target: {fileID: 7646518437716568106, guid: cfbb52f69fe25754793b65e907df98fb, type: 3}
-      propertyPath: speed
-      value: 40
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -31,8 +31,8 @@ public class MovingPlatform : MonoBehaviour
     void Awake()
     {
         riding = false;
-        player_Transform = GameObject.Find("Player").GetComponent<Transform>();
-        grapplingGun = GameObject.Find("Grappler").GetComponent<GrapplingGun>();
+        player_Transform = GameObject.FindWithTag("Player").GetComponent<Transform>();
+        grapplingGun = player_Transform.GetComponentInChildren<GrapplingGun>();
         if(moveOnYAxis)
         {
             originalPos = transform.position.y;
