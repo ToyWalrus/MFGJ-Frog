@@ -6,9 +6,16 @@ using UnityEngine;
 public class Despawner : MonoBehaviour
 {
     public Transform respawnPoint;
+    public bool despawnPlatforms = false;
     
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.CompareTag("Platform") && despawnPlatforms)
+        {
+            Destroy(other.gameObject);
+            return;
+        }
+        
         if (!other.CompareTag("Player")) return;
 
         other.transform.position = respawnPoint.position;
