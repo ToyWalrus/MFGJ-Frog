@@ -314,7 +314,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2613265322655998814, guid: b4a83b0bb150f7d459b5d2692404a133, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.82
+      value: 4.93
       objectReference: {fileID: 0}
     - target: {fileID: 2613265322655998814, guid: b4a83b0bb150f7d459b5d2692404a133, type: 3}
       propertyPath: m_LocalPosition.z
@@ -361,6 +361,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 892641490785053821, guid: cfbb52f69fe25754793b65e907df98fb, type: 3}
+      propertyPath: m_LinearDrag
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 1183343935030536270, guid: cfbb52f69fe25754793b65e907df98fb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.69
+      objectReference: {fileID: 0}
+    - target: {fileID: 1183343935030536270, guid: cfbb52f69fe25754793b65e907df98fb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 1328755109073285878, guid: cfbb52f69fe25754793b65e907df98fb, type: 3}
+      propertyPath: groundLinearDrag
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2615561248249832127, guid: cfbb52f69fe25754793b65e907df98fb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -424,6 +440,10 @@ PrefabInstance:
     - target: {fileID: 6262154591235707452, guid: cfbb52f69fe25754793b65e907df98fb, type: 3}
       propertyPath: m_Name
       value: Frog
+      objectReference: {fileID: 0}
+    - target: {fileID: 7646518437716568106, guid: cfbb52f69fe25754793b65e907df98fb, type: 3}
+      propertyPath: speed
+      value: 40
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

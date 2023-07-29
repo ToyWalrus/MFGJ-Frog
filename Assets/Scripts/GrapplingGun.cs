@@ -189,6 +189,7 @@ public class GrapplingGun : MonoBehaviour
         // If the hook is already set, we don't need to update the its position
         if (!_hasFired || hookIsSet)
         {
+            onHookSet.Invoke();
             _hookPosition = grapplePoint; //so that it moves with the moving platforms
             return;
         }
