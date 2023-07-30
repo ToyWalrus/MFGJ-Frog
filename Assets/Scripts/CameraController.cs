@@ -10,7 +10,7 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player_transform = GameObject.Find("Player").GetComponent<Transform>();
+        player_transform = GameObject.FindWithTag("Player").GetComponent<Transform>();
     }
 
     // Update is called once per frame
@@ -18,7 +18,7 @@ public class CameraController : MonoBehaviour
     {
         Vector2 relativePosition =  player_transform.position - transform.position;
 
-        Debug.Log(relativePosition.magnitude);
+        // Debug.Log(relativePosition.magnitude);
         if (relativePosition.magnitude > deadzone)
         {
             transform.Translate(relativePosition  * moveSpeed * Time.deltaTime);
