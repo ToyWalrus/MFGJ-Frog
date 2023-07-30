@@ -23,15 +23,13 @@ public class MovingPlatform : MonoBehaviour
 
     private bool riding;
 
-    private float unstuckOffset = 10f;
-
     public bool platformGrappled;
 
     // Start is called before the first frame update
     void Awake()
     {
         riding = false;
-        player_Transform = GameObject.Find("Player").GetComponent<Transform>();
+        player_Transform = GameObject.Find("Frog").GetComponent<Transform>();
         grapplingGun = GameObject.Find("Grappler").GetComponent<GrapplingGun>();
         if(moveOnYAxis)
         {
@@ -45,27 +43,25 @@ public class MovingPlatform : MonoBehaviour
         }
        
         endPos = originalPos + moveRange;
-    }
 
-    // Update is called once per frame
-
-    private void Update()
-    {
-        if (grapplingGun.hookIsSet)
-        {
-         
-                if (grapplingGun.hitCollider == gameObject.GetComponent<Collider2D>())
-                {
-                    platformGrappled = true;
-                }
-                else
-                {
-                platformGrappled = false;
-            }
-        }
+        
     }
     void LateUpdate()
     {
+        if (grapplingGun.hookIsSet)
+        {
+
+
+            if (grapplingGun.hitCollider == gameObject.GetComponent<PolygonCollider2D>())
+            {
+                platformGrappled = true;
+            }
+            else
+            {
+                platformGrappled = false;
+            }
+
+        }
         //calculate apropiate currentPos
         if (moveOnYAxis)
         {
@@ -92,13 +88,12 @@ public class MovingPlatform : MonoBehaviour
 
         transform.Translate(moveDir * Time.deltaTime);
 
-        if(moveOnYAxis == false)
+        
+        if (riding == true)
         {
-            if (riding == true)
-            {
-                player_Transform.Translate(moveDir * Time.deltaTime);
-            }
+            player_Transform.Translate(moveDir * Time.deltaTime);
         }
+        
         if (platformGrappled == true)
         {
             grapplingGun.grapplePoint += (moveDir * Time.deltaTime);
@@ -106,8 +101,9 @@ public class MovingPlatform : MonoBehaviour
   
         
      }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {     
         if (collision.gameObject.CompareTag("Player"))
         {
             riding = true;
