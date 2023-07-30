@@ -7,11 +7,10 @@ using UnityEngine.UIElements;
 
 public class FallingPlatform : MonoBehaviour
 {
-
-    [SerializeField] float _floatTimer = 2f;
+    [SerializeField] float floatTimer = 2f;
     [SerializeField] float fallingSpeed;
-    private float fallTime = float.PositiveInfinity;
-    private bool falling = false;
+    private float _fallTime = float.PositiveInfinity;
+    private bool _falling = false;
     public Material fallMaterial;
 
     private int shakeDir = 1;
@@ -22,7 +21,7 @@ public class FallingPlatform : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        _Sr = GetComponent<SpriteRenderer>();
+        _sr = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -45,11 +44,10 @@ public class FallingPlatform : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && falling == false)
+        if (collision.gameObject.CompareTag("Player") && !_falling)
         {
-            startTimer();
+            StartTimer();
         }
-
     }
 
     private void Shake()

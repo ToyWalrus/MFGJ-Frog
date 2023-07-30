@@ -9,13 +9,10 @@ public class CharacterController : MonoBehaviour
     [SerializeField, Range(0, .3f)] private float movementSmoothing = .05f; // How much to smooth out the movement
     [SerializeField] private LayerMask whatIsGround; // A mask determining what is ground to the character
     [SerializeField] private Transform groundCheck; // A position marking where to check if the player is grounded.
-    [SerializeField] private Transform ceilingCheck; // A position marking where to check for ceilings
-
+    [SerializeField] private float groundLinearDrag = 3; // Linear drag when grounded
+    
     public const float GroundedCheckRadius = .2f; // Radius of the overlap circle to determine if grounded
-
-    public const float
-        CeilingCheckRadius = .2f; // Radius of the overlap circle to determine if the player is hitting a ceiling
-
+    
     private bool _grounded; // Whether or not the player is grounded.
     private Rigidbody2D _rb;
     private bool _facingRight = true; // For determining which way the player is currently facing.
@@ -50,6 +47,9 @@ public class CharacterController : MonoBehaviour
                 onLandEvent.Invoke();
             }
         }
+
+        // When on the ground, increase drag so that the player doesn't slide after releasing movement keys
+        _rb.drag = _grounded ? groundLinearDrag : 0.05f;
     }
 
     public bool IsGrounded()

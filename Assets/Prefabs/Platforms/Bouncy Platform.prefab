@@ -10,11 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 278479000576139433}
   - component: {fileID: 2657065522420378914}
-  - component: {fileID: 8660611605140993992}
+  - component: {fileID: 6583738239534829258}
   - component: {fileID: 8436632428215865064}
+  - component: {fileID: 7879401567790973385}
   m_Layer: 6
   m_Name: Bouncy Platform
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -86,7 +87,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8660611605140993992
+--- !u!114 &6583738239534829258
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
