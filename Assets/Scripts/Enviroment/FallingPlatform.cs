@@ -21,7 +21,7 @@ public class FallingPlatform : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        _sr = GetComponent<SpriteRenderer>();
+        _Sr = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -29,12 +29,12 @@ public class FallingPlatform : MonoBehaviour
     {
 
        
-        if(falling == true)
+        if(_falling == true)
         {
-            if (Time.time > fallTime)
+            if (Time.time > _fallTime)
             {
                 fall();
-                falling = false;
+                _falling = false;
                 
             }
             Shake();
@@ -46,7 +46,7 @@ public class FallingPlatform : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") && !_falling)
         {
-            StartTimer();
+            startTimer();
         }
     }
 
@@ -62,8 +62,8 @@ public class FallingPlatform : MonoBehaviour
     private void startTimer()
     {
         Debug.Log("falling");
-        falling = true;
-        fallTime = Time.time + _floatTimer;
+        _falling = true;
+        _fallTime = Time.time + floatTimer;
         _Sr.material = fallMaterial;
 
     }
