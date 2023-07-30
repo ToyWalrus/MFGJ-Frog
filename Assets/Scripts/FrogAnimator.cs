@@ -74,6 +74,11 @@ public class FrogAnimator : MonoBehaviour
         _anim.SetBool(SwingingAnimProperty, isSwinging);
     }
 
+    public void UpdateGrapplePoint(Vector2 point)
+    {
+        _hitPoint = point;
+    }
+
     public void FlickTongue()
     {
         _anim.SetTrigger(QuickAnimProperty);
