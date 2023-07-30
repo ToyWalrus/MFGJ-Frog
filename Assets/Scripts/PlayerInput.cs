@@ -43,6 +43,11 @@ public class PlayerInput : MonoBehaviour
     // Get input
     private void Update()
     {
+        if (grappler.IsGrappled)
+        {
+            frogAnimator.UpdateGrapplePoint(grappler.grapplePoint);
+        }
+        
         _movement = Input.GetAxisRaw("Horizontal");
 
         if (!CheckCanJump(Time.deltaTime)) return;
