@@ -1,0 +1,32 @@
+.lilypad-button {
+    padding-top: 24px;
+    padding-bottom: 24px;
+    padding-left: 24px;
+    padding-right: 24px;
+    background-image: url('project://database/Assets/Graphics/lilypad.png?fileID=21300000&guid=d6331c359e60b8c49b434113c26e443f&type=3#lilypad');
+    background-color: rgba(255, 255, 255, 0);
+    -unity-background-scale-mode: scale-to-fit;
+    -unity-font-style: bold;
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-top: 20px;
+    margin-bottom: 4px;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    scale: 1 1;
+}
+
+.lilypad-button:hover {
+    -unity-background-image-tint-color: rgb(134, 226, 116);
+    scale: 1.1 1.1;
+}
+
+#FrogImg {
+    scale: 2 2;
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
