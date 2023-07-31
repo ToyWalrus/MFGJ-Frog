@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/stylesheet.uss?fileID=7433441132597879392&amp;guid=c289ea1ffe07d08409d69a10539cc1de&amp;type=3#stylesheet" />
+    <ui:VisualElement style="flex-grow: 1;">
+        <ui:Label tabindex="-1" text="Frog Game" display-tooltip-when-elided="true" name="GameName" style="-unity-font-style: bold; font-size: 24px; -unity-text-align: upper-center;" />
+        <ui:Label tabindex="-1" text="A My First GameJam Game" display-tooltip-when-elided="true" name="Subtitle" style="-unity-text-align: upper-center; font-size: 11px; -unity-font-style: italic; top: -12px;" />
+        <ui:VisualElement name="ButtonContainer" style="flex-grow: 1; flex-direction: column; align-items: center; justify-content: center;">
+            <ui:Button text="Play" display-tooltip-when-elided="true" name="PlayButton" class="lilypad-button" style="scale: 1 1;" />
+            <ui:Button text="Quit" display-tooltip-when-elided="true" name="QuitButton" class="lilypad-button" style="margin-top: 24px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
