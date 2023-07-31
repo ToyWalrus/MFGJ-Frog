@@ -2,9 +2,12 @@ using UnityEngine;
 
 public class BouncyPlatform : MonoBehaviour
 {
-    [SerializeField] private float bounceForce = 100f;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    [SerializeField] private float bounceForce = 600f;
+    // Start is called before the first frame update
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {

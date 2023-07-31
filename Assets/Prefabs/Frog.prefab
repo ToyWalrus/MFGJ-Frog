@@ -137,7 +137,7 @@ MonoBehaviour:
   firePoint: {fileID: 5871658098398038450}
   fireSpeed: 50
   maxRopeLengthAfterHooked: 6
-  speedToDesiredRopeLength: 2
+  speedToDesiredRopeLength: 1
   grappleModeReadout: 
   grapplePoint: {x: 0, y: 0}
   hookIsSet: 0
@@ -404,7 +404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 441c95a5a39d4bd88eac21b6c688f176, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 600
+  jumpForce: 450
   movementSmoothing: 0.01
   whatIsGround:
     serializedVersion: 2
@@ -432,7 +432,7 @@ MonoBehaviour:
   speed: 40
   jumpCooldown: 0.3
   coyoteTime: 0.1
-  maxJumps: 1
+  maxJumps: 2
 --- !u!50 &892641490785053821
 Rigidbody2D:
   serializedVersion: 4

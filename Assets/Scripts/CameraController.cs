@@ -5,8 +5,8 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     private Transform player_transform;
-    [SerializeField] private float deadzone = 5f;
-    [SerializeField] private float moveSpeed; 
+    [SerializeField] private float deadzone = 2f;
+    [SerializeField] private float moveSpeed = 4f; 
     // Start is called before the first frame update
     void Start()
     {
@@ -16,9 +16,9 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector2 relativePosition =  player_transform.position - transform.position;
+        Vector2 relativePosition =  (player_transform.position+(Vector3.up *2)) - transform.position;
 
-        // Debug.Log(relativePosition.magnitude);
+
         if (relativePosition.magnitude > deadzone)
         {
             transform.Translate(relativePosition  * moveSpeed * Time.deltaTime);

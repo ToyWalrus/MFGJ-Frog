@@ -78,12 +78,9 @@ public class CharacterController : MonoBehaviour
     {
         // If the player should jump...
         // Add a vertical force to the player.
-        if (grappleMode == "hold" || !grappling)
-        {
-            _rb.velocity = Vector3.zero;
-        }
         
-        _rb.AddForce(Vector2.up * jumpForce);
+        _rb.velocity = Vector3.zero;
+        _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     }
 
     private void GroundMovement(float move)
