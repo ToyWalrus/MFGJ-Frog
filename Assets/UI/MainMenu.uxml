@@ -1,0 +1,17 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/stylesheet.uss?fileID=7433441132597879392&amp;guid=c289ea1ffe07d08409d69a10539cc1de&amp;type=3#stylesheet" />
+    <ui:VisualElement style="flex-grow: 1; background-color: rgb(77, 202, 219);">
+        <ui:VisualElement name="HeaderContainer" style="background-color: rgba(0, 0, 0, 0); flex-direction: row; align-items: center;">
+            <ui:VisualElement name="FrogImg" style="background-image: url(&apos;project://database/Assets/Graphics/frog-spritesheet-final.png?fileID=2060101291&amp;guid=2979977f3b5620d4c8e0a95318be226f&amp;type=3#frog_idle_R&apos;); -unity-background-scale-mode: scale-and-crop; width: 100px; height: 100px;" />
+            <ui:VisualElement name="HeaderText" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+                <ui:Label tabindex="-1" text="Frog Game" display-tooltip-when-elided="true" name="GameName" style="-unity-font-style: bold; font-size: 24px; -unity-text-align: upper-center;" />
+                <ui:Label tabindex="-1" text="A My First GameJam Game" display-tooltip-when-elided="true" name="Subtitle" style="-unity-text-align: upper-center; font-size: 11px; -unity-font-style: italic; top: -12px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="FrogImg" style="background-image: url(&apos;project://database/Assets/Graphics/frog-spritesheet-final.png?fileID=-1242813915&amp;guid=2979977f3b5620d4c8e0a95318be226f&amp;type=3#frog_idle_L&apos;); -unity-background-scale-mode: scale-and-crop; width: 100px; height: 100px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="ButtonContainer" style="flex-grow: 1; flex-direction: column; align-items: center; justify-content: flex-start; margin-top: 20px;">
+            <ui:Button text="Play" display-tooltip-when-elided="true" name="PlayButton" class="lilypad-button" />
+            <ui:Button text="Quit" display-tooltip-when-elided="true" name="QuitButton" class="lilypad-button" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
