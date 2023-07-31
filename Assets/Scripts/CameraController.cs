@@ -10,7 +10,7 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player_transform = GameObject.Find("Frog").GetComponent<Transform>();
+        player_transform = GameObject.FindWithTag("Player").GetComponent<Transform>();
     }
 
     // Update is called once per frame

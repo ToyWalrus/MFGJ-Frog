@@ -25,12 +25,14 @@ public class MovingPlatform : MonoBehaviour
 
     public bool platformGrappled;
 
+
     // Start is called before the first frame update
     void Awake()
     {
         riding = false;
         player_Transform = GameObject.Find("Frog").GetComponent<Transform>();
         grapplingGun = GameObject.Find("Grappler").GetComponent<GrapplingGun>();
+
         if(moveOnYAxis)
         {
             originalPos = transform.position.y;
@@ -51,9 +53,9 @@ public class MovingPlatform : MonoBehaviour
         if (grapplingGun.hookIsSet)
         {
 
-
-            if (grapplingGun.hitCollider == gameObject.GetComponent<PolygonCollider2D>())
+            if (grapplingGun.hitCollider == gameObject.GetComponent<Collider2D>())
             {
+                Debug.Log("grappled");
                 platformGrappled = true;
             }
             else
