@@ -5,7 +5,7 @@ using UnityEngine.Events;
 // Code derived from Brackey's movement tutorial https://youtu.be/dwcT-Dch0bA
 public class CharacterController : MonoBehaviour
 {
-    [SerializeField] public float jumpForce = 1600f; // Amount of force added when the player jumps.
+    [SerializeField] public float jumpForce = 450f; // Amount of force added when the player jumps.
     [SerializeField, Range(0, .3f)] private float movementSmoothing = .05f; // How much to smooth out the movement
     [SerializeField] private LayerMask whatIsGround; // A mask determining what is ground to the character
     [SerializeField] private Transform groundCheck; // A position marking where to check if the player is grounded.
