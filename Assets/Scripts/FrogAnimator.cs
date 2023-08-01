@@ -12,6 +12,7 @@ public class FrogAnimator : MonoBehaviour
     private static readonly int GroundedAnimProperty = Animator.StringToHash("Grounded");
     private static readonly int QuickAnimProperty = Animator.StringToHash("Quick");
     private static readonly int JumpAnimProperty = Animator.StringToHash("Jump");
+    private static readonly int WallHoldAnimProperty = Animator.StringToHash("WallHold");
  
     private Vector2 _hitPoint;
 
@@ -82,5 +83,10 @@ public class FrogAnimator : MonoBehaviour
     public void FlickTongue()
     {
         _anim.SetTrigger(QuickAnimProperty);
+    }
+    
+    public void WallHold(bool isHoldingWall)
+    {
+        _anim.SetBool(WallHoldAnimProperty, isHoldingWall);
     }
 }
