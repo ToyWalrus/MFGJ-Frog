@@ -14,7 +14,7 @@ public class MainScreen : MonoBehaviour
 
     private void OnPlayButtonClicked(object _)
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(sceneName: "Room_01_Jungle");
     }
 
     private void OnQuit(object _)

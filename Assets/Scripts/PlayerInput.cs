@@ -24,10 +24,12 @@ public class PlayerInput : MonoBehaviour
     [SerializeField, Tooltip("How many jumps can the player do before touching the ground again?")]
     private int maxJumps = 1;
     private int _jumpsSinceLastGrounded = 0;
+    private bool _isSwingingRight = true;
 
     private void OnEnable()
     {
         controller.onLandEvent.AddListener(ResetJumpCount);
+        controller.onWallSlideEvent.AddListener(ResetJumpCountFromWall);
         grappler.onGrappleFire.AddListener(OnFireGrapple);
         grappler.onGrappleRelease.AddListener(OnReleaseGrapple);
     }
@@ -35,6 +37,7 @@ public class PlayerInput : MonoBehaviour
     private void OnDisable()
     {
         controller.onLandEvent.RemoveListener(ResetJumpCount);
+        controller.onWallSlideEvent.RemoveListener(ResetJumpCountFromWall);
         grappler.onGrappleFire.RemoveListener(OnFireGrapple);
         grappler.onGrappleRelease.RemoveListener(OnReleaseGrapple);
     }
@@ -77,7 +80,29 @@ public class PlayerInput : MonoBehaviour
         frogAnimator.SetIsGrounded(controller.IsGrounded());
 
         // Don't accept movement if we're grappling
-        if (grappler != null && grappler.IsGrappled) return;
+        if (grappler != null && grappler.IsGrappled)
+        {
+            Debug.Log("grappling");
+            Debug.Log(gameObject.GetComponent<Rigidbody2D>().velocity.x);
+            if (gameObject.GetComponent<Rigidbody2D>().velocity.x < -0.1f && _isSwingingRight)
+            {
+                Debug.Log("fliping");
+                gameObject.transform.Find("FrogAnimator").GetComponent<SpriteRenderer>().flipY = true;
+                
+                _isSwingingRight = false;
+            }
+            else if (gameObject.GetComponent<Rigidbody2D>().velocity.x > 0.1f && !_isSwingingRight)
+            {
+                Debug.Log("fliping");
+                gameObject.transform.Find("FrogAnimator").GetComponent<SpriteRenderer>().flipY = false;
+                _isSwingingRight = true;
+            }
+            return;
+        }
+        else
+        {
+            gameObject.transform.Find("FrogAnimator").GetComponent<SpriteRenderer>().flipY = false;
+        }
 
         frogAnimator.SetIsMoving(_movement != 0 && !grappler.IsGrappled, Math.Sign(_movement));
 
@@ -129,6 +154,11 @@ public class PlayerInput : MonoBehaviour
     private void ResetJumpCount()
     {
         _jumpsSinceLastGrounded = 0;
+    }
+
+    private void ResetJumpCountFromWall()
+    {
+        _jumpsSinceLastGrounded = 1;
     }
 
     private void OnFireGrapple(Vector2 hitPoint, bool didHitSurface)

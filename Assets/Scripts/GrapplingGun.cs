@@ -181,6 +181,7 @@ public class GrapplingGun : MonoBehaviour
         _hookPosition = firePosition;
         
         onGrappleFire.Invoke(grapplePoint, hitCollider);
+        gameObject.GetComponent<AudioSource>().Play();
     }
 
     private void UpdateHookPosition()
