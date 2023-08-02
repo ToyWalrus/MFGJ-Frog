@@ -24,6 +24,7 @@ public class PlayerInput : MonoBehaviour
     [SerializeField, Tooltip("How many jumps can the player do before touching the ground again?")]
     private int maxJumps = 1;
     private int _jumpsSinceLastGrounded = 0;
+    private bool _isSwingingRight = true;
 
     private void OnEnable()
     {
@@ -77,7 +78,29 @@ public class PlayerInput : MonoBehaviour
         frogAnimator.SetIsGrounded(controller.IsGrounded());
 
         // Don't accept movement if we're grappling
-        if (grappler != null && grappler.IsGrappled) return;
+        if (grappler != null && grappler.IsGrappled)
+        {
+            Debug.Log("grappling");
+            Debug.Log(gameObject.GetComponent<Rigidbody2D>().velocity.x);
+            if (gameObject.GetComponent<Rigidbody2D>().velocity.x < 0 && _isSwingingRight)
+            {
+                Debug.Log("fliping");
+                gameObject.transform.Find("FrogAnimator").GetComponent<SpriteRenderer>().flipY = true;
+                
+                _isSwingingRight = false;
+            }
+            if (gameObject.GetComponent<Rigidbody2D>().velocity.x > 0 && !_isSwingingRight)
+            {
+                Debug.Log("fliping");
+                gameObject.transform.Find("FrogAnimator").GetComponent<SpriteRenderer>().flipY = false;
+                _isSwingingRight = true;
+            }
+            return;
+        }
+        else
+        {
+            gameObject.transform.Find("FrogAnimator").GetComponent<SpriteRenderer>().flipY = false;
+        }
 
         frogAnimator.SetIsMoving(_movement != 0 && !grappler.IsGrappled, Math.Sign(_movement));
 

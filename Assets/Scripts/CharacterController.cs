@@ -9,11 +9,13 @@ public class CharacterController : MonoBehaviour
     [SerializeField, Range(0, .3f)] private float movementSmoothing = .05f; // How much to smooth out the movement
     [SerializeField] private LayerMask whatIsGround; // A mask determining what is ground to the character
     [SerializeField] private Transform groundCheck; // A position marking where to check if the player is grounded.
+    [SerializeField] private Transform WallCheck; // A position marking where to check if the player is sliding on a wall.
     [SerializeField] private float groundLinearDrag = 3; // Linear drag when grounded
     
     public const float GroundedCheckRadius = .2f; // Radius of the overlap circle to determine if grounded
     
     private bool _grounded; // Whether or not the player is grounded.
+    private bool _sliding;
     private Rigidbody2D _rb;
     private bool _facingRight = true; // For determining which way the player is currently facing.
     private int _facingRightInt = 1; //For calculating movement direction on jump more easily
@@ -50,6 +52,23 @@ public class CharacterController : MonoBehaviour
 
         // When on the ground, increase drag so that the player doesn't slide after releasing movement keys
         _rb.drag = _grounded ? groundLinearDrag : 0.05f;
+
+
+        bool wasSliding = _sliding;
+        _sliding = false;
+
+        var wallColliders = Physics2D.OverlapCircleAll(WallCheck.position, GroundedCheckRadius, whatIsGround);
+        foreach (var collider in wallColliders)
+        {
+            // Ignore self
+            if (collider.gameObject == gameObject) continue;
+
+            _sliding = true;
+            if (!wasSliding)
+            {
+                onLandEvent.Invoke();
+            }
+        }
     }
 
     public bool IsGrounded()
@@ -65,6 +84,7 @@ public class CharacterController : MonoBehaviour
         if (_grounded)
         {
             GroundMovement(move);
+            gameObject.GetComponent<AudioSource>().Play();
         }
         else
         {
@@ -116,7 +136,7 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-    private void Flip()
+    public void Flip()
     {
         // Switch the way the player is labelled as facing.
         _facingRight = !_facingRight;
@@ -133,5 +153,6 @@ public class CharacterController : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(groundCheck.position, GroundedCheckRadius);
+        Gizmos.DrawWireSphere(WallCheck.position, GroundedCheckRadius);
     }
 }
