@@ -1,17 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Build.Content;
+
 using UnityEngine;
 
 public class KillOnContact : MonoBehaviour
 {
     // Start is called before the first frame update
+    private Vector3 respawnPoint;
 
+    private void Start()
+    {
+        respawnPoint = GameObject.Find("RespawnPoint").transform.position;
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Destroy(collision.gameObject);
+            Debug.Log("respawning");
+            collision.gameObject.transform.Translate(respawnPoint- transform.position);
         }
     }
 }

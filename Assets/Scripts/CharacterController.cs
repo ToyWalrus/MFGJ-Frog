@@ -64,16 +64,31 @@ public class CharacterController : MonoBehaviour
             if (collider.gameObject == gameObject) continue;
 
             _sliding = true;
-            if (!wasSliding)
+            if (!wasSliding && !IsGrounded())
             {
                 onLandEvent.Invoke();
             }
         }
+
+        if (isWallSliding())
+        {
+            gameObject.transform.Find("FrogAnimator").GetComponent<FrogAnimator>().WallHold(true);
+        }
+        else
+        {
+            gameObject.transform.Find("FrogAnimator").GetComponent<FrogAnimator>().WallHold(false);
+        }
     }
+
 
     public bool IsGrounded()
     {
         return _grounded;
+    }
+
+    public bool isWallSliding()
+    {
+        return _sliding;
     }
 
     /// <summary>

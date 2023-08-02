@@ -82,14 +82,14 @@ public class PlayerInput : MonoBehaviour
         {
             Debug.Log("grappling");
             Debug.Log(gameObject.GetComponent<Rigidbody2D>().velocity.x);
-            if (gameObject.GetComponent<Rigidbody2D>().velocity.x < 0 && _isSwingingRight)
+            if (gameObject.GetComponent<Rigidbody2D>().velocity.x < -0.1f && _isSwingingRight)
             {
                 Debug.Log("fliping");
                 gameObject.transform.Find("FrogAnimator").GetComponent<SpriteRenderer>().flipY = true;
                 
                 _isSwingingRight = false;
             }
-            if (gameObject.GetComponent<Rigidbody2D>().velocity.x > 0 && !_isSwingingRight)
+            else if (gameObject.GetComponent<Rigidbody2D>().velocity.x > 0.1f && !_isSwingingRight)
             {
                 Debug.Log("fliping");
                 gameObject.transform.Find("FrogAnimator").GetComponent<SpriteRenderer>().flipY = false;
