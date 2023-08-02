@@ -29,6 +29,7 @@ public class PlayerInput : MonoBehaviour
     private void OnEnable()
     {
         controller.onLandEvent.AddListener(ResetJumpCount);
+        controller.onWallSlideEvent.AddListener(ResetJumpCountFromWall);
         grappler.onGrappleFire.AddListener(OnFireGrapple);
         grappler.onGrappleRelease.AddListener(OnReleaseGrapple);
     }
@@ -36,6 +37,7 @@ public class PlayerInput : MonoBehaviour
     private void OnDisable()
     {
         controller.onLandEvent.RemoveListener(ResetJumpCount);
+        controller.onWallSlideEvent.RemoveListener(ResetJumpCountFromWall);
         grappler.onGrappleFire.RemoveListener(OnFireGrapple);
         grappler.onGrappleRelease.RemoveListener(OnReleaseGrapple);
     }
@@ -152,6 +154,11 @@ public class PlayerInput : MonoBehaviour
     private void ResetJumpCount()
     {
         _jumpsSinceLastGrounded = 0;
+    }
+
+    private void ResetJumpCountFromWall()
+    {
+        _jumpsSinceLastGrounded = 1;
     }
 
     private void OnFireGrapple(Vector2 hitPoint, bool didHitSurface)

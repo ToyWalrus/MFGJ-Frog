@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class EndOfLevel : MonoBehaviour
 {
+    public string nextSceneName;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +20,6 @@ public class EndOfLevel : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        SceneManager.LoadScene(sceneName: "Room_02_Cave_Entrance");
+        SceneManager.LoadScene(sceneName: nextSceneName);
     }
 }

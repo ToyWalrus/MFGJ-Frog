@@ -1,49 +1,48 @@
 
+using System.Net;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class MovingPlatform : MonoBehaviour
 {
-    [SerializeField]  float moveRange;
 
     private Transform player_Transform;
 
     private GrapplingGun grapplingGun;
 
-    private Vector2 moveDir;
-
-    [SerializeField]  bool moveOnYAxis = false;
     [SerializeField]  float  moveSpeed = 8f;
 
-    private float originalPos;
-    private float currentPos;
-    private float endPos;
+
 
     private bool riding;
 
     public bool platformGrappled;
 
 
+
+
+    private Vector3 Endpoint;
+    private Vector3 originalPos;
+
+    private Vector3 moveDirection;
+
+    private Vector3 relativePosition;
+
+    private bool _switchDirection = false;
+
     // Start is called before the first frame update
     void Awake()
     {
+
+        Endpoint = transform.Find("EndPoint").transform.position;
+        originalPos = transform.position;
+        moveDirection = (Endpoint - originalPos).normalized;
+
+        
         riding = false;
         player_Transform = GameObject.Find("Frog").GetComponent<Transform>();
         grapplingGun = GameObject.Find("Grappler").GetComponent<GrapplingGun>();
 
-        if(moveOnYAxis)
-        {
-            originalPos = transform.position.y;
-            moveDir = Vector3.up * moveSpeed * -1;
-        }
-        else
-        {
-            originalPos = transform.position.x;
-            moveDir = Vector2.right * moveSpeed * -1;
-        }
-       
-        endPos = originalPos + moveRange;
-
-        
     }
     void LateUpdate()
     {
@@ -61,45 +60,49 @@ public class MovingPlatform : MonoBehaviour
             }
 
         }
-        //calculate apropiate currentPos
-        if (moveOnYAxis)
+        
+        if (_switchDirection)
         {
-            currentPos = transform.position.y;
+            relativePosition =  transform.position - originalPos;
+
         }
         else
         {
-            currentPos = transform.position.x;
+            relativePosition = transform.position - Endpoint;
+
         }
-        if (currentPos < originalPos)//if reached original pos switch direction of movement
+        if (relativePosition.magnitude < 0.5)
         {
-
-            moveDir *= -1;
-            transform.Translate(moveDir * 0.05f);
-                
-
-        }
-        else if (currentPos > endPos) //if reached final pos switch direction of movement
-        {
-                
-            moveDir *= -1;
-            transform.Translate(moveDir * 0.05f);
+            flip();
         }
 
-        transform.Translate(moveDir * Time.deltaTime);
+        transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
 
-        
+
         if (riding == true)
         {
-            player_Transform.Translate(moveDir * Time.deltaTime);
+            player_Transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
         }
         
         if (platformGrappled == true)
         {
-            grapplingGun.grapplePoint += (moveDir * Time.deltaTime);
+            grapplingGun.grapplePoint += (new Vector2(moveDirection.x, moveDirection.y) * moveSpeed * Time.deltaTime);
         }
-  
-        
-     }
+       
+
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(Endpoint, 1);
+    }
+
+    private void flip()
+    {
+        moveDirection *= -1;
+        _switchDirection = !_switchDirection;
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {     

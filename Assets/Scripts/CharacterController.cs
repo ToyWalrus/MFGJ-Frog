@@ -15,15 +15,14 @@ public class CharacterController : MonoBehaviour
     public const float GroundedCheckRadius = .2f; // Radius of the overlap circle to determine if grounded
     
     private bool _grounded; // Whether or not the player is grounded.
-    private bool _sliding;
+    private bool _sliding;  //whether or not the player is sliding on a wall.
     private Rigidbody2D _rb;
     private bool _facingRight = true; // For determining which way the player is currently facing.
-    private int _facingRightInt = 1; //For calculating movement direction on jump more easily
     private Vector3 _velocity = Vector3.zero; // Velocity of the player. Managed by the SmoothDamp function.
 
     [Space(20)]
     public UnityEvent onLandEvent; // Event triggered when the player lands after being in the air.
-
+    public UnityEvent onWallSlideEvent; // Event triggered when the player hits a wall after being in the air.
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -37,23 +36,6 @@ public class CharacterController : MonoBehaviour
 
         // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
         // This can be done using layers instead but Sample Assets will not overwrite your project settings.
-        var colliders = Physics2D.OverlapCircleAll(groundCheck.position, GroundedCheckRadius, whatIsGround);
-        foreach (var collider in colliders)
-        {
-            // Ignore self
-            if (collider.gameObject == gameObject) continue;
-
-            _grounded = true;
-            if (!wasGrounded)
-            {
-                onLandEvent.Invoke();
-            }
-        }
-
-        // When on the ground, increase drag so that the player doesn't slide after releasing movement keys
-        _rb.drag = _grounded ? groundLinearDrag : 0.05f;
-
-
         bool wasSliding = _sliding;
         _sliding = false;
 
@@ -64,11 +46,36 @@ public class CharacterController : MonoBehaviour
             if (collider.gameObject == gameObject) continue;
 
             _sliding = true;
-            if (!wasSliding && !IsGrounded())
+            if (!wasSliding)
             {
-                onLandEvent.Invoke();
+                Debug.Log("WallJumpReset");
+                onWallSlideEvent.Invoke();
             }
         }
+
+        if (!_sliding)
+        {
+            var colliders = Physics2D.OverlapCircleAll(groundCheck.position, GroundedCheckRadius, whatIsGround);
+            foreach (var collider in colliders)
+            {
+                // Ignore self
+                if (collider.gameObject == gameObject) continue;
+
+                _grounded = true;
+                if (!wasGrounded && !wasSliding)
+                {
+                    Debug.Log("GroundJumpReset");
+                    onLandEvent.Invoke();
+                }
+            }
+        }
+
+        // When on the ground, increase drag so that the player doesn't slide after releasing movement keys
+        _rb.drag = _grounded ? groundLinearDrag : 0.05f;
+
+
+        
+        
 
         if (isWallSliding())
         {
@@ -83,7 +90,14 @@ public class CharacterController : MonoBehaviour
 
     public bool IsGrounded()
     {
-        return _grounded;
+        if (isWallSliding() == false)
+        {
+            return _grounded;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public bool isWallSliding()
@@ -155,7 +169,6 @@ public class CharacterController : MonoBehaviour
     {
         // Switch the way the player is labelled as facing.
         _facingRight = !_facingRight;
-        _facingRightInt *= -1;
 
         // Multiply the player's x local scale by -1.
         var scale = transform.localScale;
