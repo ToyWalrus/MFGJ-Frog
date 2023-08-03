@@ -184,6 +184,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5231562603535239687}
+  - {fileID: 5378343238857432750}
   - {fileID: 5871658098398038450}
   - {fileID: 1183343935030536270}
   m_Father: {fileID: 2615561248249832127}
@@ -324,6 +325,37 @@ MonoBehaviour:
   tongueEndSpriteRenderer: {fileID: 5692942471358228390}
   tongueEndSprite: {fileID: 1357248216, guid: 2979977f3b5620d4c8e0a95318be226f, type: 3}
   tongueStuckSprite: {fileID: -1972445017, guid: 2979977f3b5620d4c8e0a95318be226f, type: 3}
+--- !u!1 &5056088228783818476
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5378343238857432750}
+  m_Layer: 0
+  m_Name: WallCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5378343238857432750
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5056088228783818476}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.6, y: 0.18, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 704907047691060916}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5997414294792905386
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,8 +442,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 208
   groundCheck: {fileID: 5231562603535239687}
+  WallCheck: {fileID: 5378343238857432750}
   groundLinearDrag: 6
   onLandEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onWallSlideEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &7646518437716568106
@@ -429,8 +465,8 @@ MonoBehaviour:
   grappler: {fileID: 2670736552296107461}
   frogAnimator: {fileID: 2112119952186205917}
   controller: {fileID: 1328755109073285878}
-  speed: 40
-  jumpCooldown: 0.3
+  speed: 60
+  jumpCooldown: 0.5
   coyoteTime: 0.1
   maxJumps: 2
 --- !u!50 &892641490785053821

@@ -11,11 +11,11 @@ public class CharacterController : MonoBehaviour
     [SerializeField] private Transform groundCheck; // A position marking where to check if the player is grounded.
     [SerializeField] private Transform WallCheck; // A position marking where to check if the player is sliding on a wall.
     [SerializeField] private float groundLinearDrag = 3; // Linear drag when grounded
-    
+
     public const float GroundedCheckRadius = .2f; // Radius of the overlap circle to determine if grounded
-    
+
     private bool _grounded; // Whether or not the player is grounded.
-    private bool _sliding;  //whether or not the player is sliding on a wall.
+    private bool _sliding; //whether or not the player is sliding on a wall.
     private Rigidbody2D _rb;
     private bool _facingRight = true; // For determining which way the player is currently facing.
     private Vector3 _velocity = Vector3.zero; // Velocity of the player. Managed by the SmoothDamp function.
@@ -23,6 +23,7 @@ public class CharacterController : MonoBehaviour
     [Space(20)]
     public UnityEvent onLandEvent; // Event triggered when the player lands after being in the air.
     public UnityEvent onWallSlideEvent; // Event triggered when the player hits a wall after being in the air.
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -74,9 +75,6 @@ public class CharacterController : MonoBehaviour
         _rb.drag = _grounded ? groundLinearDrag : 0.05f;
 
 
-        
-        
-
         if (isWallSliding())
         {
             gameObject.transform.Find("FrogAnimator").GetComponent<FrogAnimator>().WallHold(true);
@@ -123,11 +121,11 @@ public class CharacterController : MonoBehaviour
         CheckForReversedDirection(move);
     }
 
-    public void Jump( bool grappling, string grappleMode)
+    public void Jump(bool grappling, string grappleMode)
     {
         // If the player should jump...
         // Add a vertical force to the player.
-        
+
         _rb.velocity = Vector3.zero;
         _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     }
@@ -150,7 +148,6 @@ public class CharacterController : MonoBehaviour
         Vector3 targetVelocity = new Vector2(move * 10f, velocity.y);
         // And then smoothing it out and applying it to the character
         _rb.velocity = Vector3.SmoothDamp(velocity, targetVelocity, ref _velocity, movementSmoothing);
-
     }
 
     private void CheckForReversedDirection(float move)
@@ -177,10 +174,16 @@ public class CharacterController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (groundCheck == null) return;
-
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(groundCheck.position, GroundedCheckRadius);
-        Gizmos.DrawWireSphere(WallCheck.position, GroundedCheckRadius);
+
+        if (groundCheck != null)
+        {
+            Gizmos.DrawWireSphere(groundCheck.position, GroundedCheckRadius);
+        }
+
+        if (WallCheck != null)
+        {
+            Gizmos.DrawWireSphere(WallCheck.position, GroundedCheckRadius);
+        }
     }
 }
