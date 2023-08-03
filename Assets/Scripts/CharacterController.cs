@@ -23,6 +23,8 @@ public class CharacterController : MonoBehaviour
     [Space(20)]
     public UnityEvent onLandEvent; // Event triggered when the player lands after being in the air.
     public UnityEvent onWallSlideEvent; // Event triggered when the player hits a wall after being in the air.
+    public UnityEvent onJumpEvent;
+    
 
     private void Awake()
     {
@@ -32,6 +34,7 @@ public class CharacterController : MonoBehaviour
 
     private void FixedUpdate()
     {
+
         bool wasGrounded = _grounded;
         _grounded = false;
 
@@ -128,6 +131,7 @@ public class CharacterController : MonoBehaviour
 
         _rb.velocity = Vector3.zero;
         _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        onJumpEvent.Invoke();
     }
 
     private void GroundMovement(float move)

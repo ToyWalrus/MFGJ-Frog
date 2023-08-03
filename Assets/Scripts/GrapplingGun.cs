@@ -42,6 +42,7 @@ public class GrapplingGun : MonoBehaviour
 
     [Space(10)]
     public UnityEvent<Vector2, bool> onGrappleFire;
+    public UnityEvent onGrappleFireForAudio;
     public UnityEvent onHookSet;
     public UnityEvent onGrappleRelease;
     

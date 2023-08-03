@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerInput : MonoBehaviour
 {
@@ -25,6 +26,9 @@ public class PlayerInput : MonoBehaviour
     private int maxJumps = 1;
     private int _jumpsSinceLastGrounded = 0;
     private bool _isSwingingRight = true;
+
+
+    public UnityEvent onGrappleFire;
 
     private void OnEnable()
     {
