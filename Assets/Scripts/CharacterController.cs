@@ -24,7 +24,9 @@ public class CharacterController : MonoBehaviour
     public UnityEvent onLandEvent; // Event triggered when the player lands after being in the air.
     public UnityEvent onWallSlideEvent; // Event triggered when the player hits a wall after being in the air.
     public UnityEvent onJumpEvent;
-    
+
+    private float _wallJumpCooldown = 0.75f;
+    private float _wallJumpCooldownTimer = 0f;
 
     private void Awake()
     {
@@ -34,7 +36,6 @@ public class CharacterController : MonoBehaviour
 
     private void FixedUpdate()
     {
-
         bool wasGrounded = _grounded;
         _grounded = false;
 
@@ -50,11 +51,11 @@ public class CharacterController : MonoBehaviour
             if (collider.gameObject == gameObject) continue;
 
             _sliding = true;
-            if (!wasSliding)
-            {
-                Debug.Log("WallJumpReset");
-                onWallSlideEvent.Invoke();
-            }
+            if (wasSliding) break;
+
+            // Debug.Log("WallJumpReset");
+            _wallJumpCooldownTimer = _wallJumpCooldown;
+            onWallSlideEvent.Invoke();
         }
 
         if (!_sliding)
@@ -68,7 +69,7 @@ public class CharacterController : MonoBehaviour
                 _grounded = true;
                 if (!wasGrounded && !wasSliding)
                 {
-                    Debug.Log("GroundJumpReset");
+                    // Debug.Log("GroundJumpReset");
                     onLandEvent.Invoke();
                 }
             }
@@ -78,30 +79,18 @@ public class CharacterController : MonoBehaviour
         _rb.drag = _grounded ? groundLinearDrag : 0.05f;
 
 
-        if (isWallSliding())
-        {
-            gameObject.transform.Find("FrogAnimator").GetComponent<FrogAnimator>().WallHold(true);
-        }
-        else
-        {
-            gameObject.transform.Find("FrogAnimator").GetComponent<FrogAnimator>().WallHold(false);
-        }
+        gameObject.transform.Find("FrogAnimator").GetComponent<FrogAnimator>().WallHold(IsWallSliding());
+        
+        TickDownWallJumpTimer(Time.fixedDeltaTime);
     }
 
 
     public bool IsGrounded()
     {
-        if (isWallSliding() == false)
-        {
-            return _grounded;
-        }
-        else
-        {
-            return false;
-        }
+        return IsWallSliding() == false && _grounded;
     }
 
-    public bool isWallSliding()
+    public bool IsWallSliding()
     {
         return _sliding;
     }
@@ -118,19 +107,34 @@ public class CharacterController : MonoBehaviour
         }
         else
         {
-            AirMovement(move);
+            if (!AirMovement(move))
+            {
+                return;
+            }
         }
 
         CheckForReversedDirection(move);
     }
 
-    public void Jump(bool grappling, string grappleMode)
+    public void Jump()
     {
-        // If the player should jump...
-        // Add a vertical force to the player.
+        if (IsWallSliding() && !IsGrounded())
+        {
+            var direction = _facingRight ? new Vector2(-0.5f, 0.5f) : new Vector2(0.5f, 0.5f);
+            _rb.AddForce(direction * jumpForce * 1.5f, ForceMode2D.Impulse);
+            transform.Find("FrogAnimator").GetComponent<FrogAnimator>().SetIsMoving(true, _facingRight ? -1 : 1);
+            Flip();
+        }
+        else
+        {
+            // reset upward velocity
+            _rb.velocity = new Vector2(_rb.velocity.x, 0);
 
-        _rb.velocity = Vector3.zero;
-        _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            // reduce jump force if not grounded
+            var jumpForce = IsGrounded() ? this.jumpForce : this.jumpForce * 0.5f;
+            _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }
+
         onJumpEvent.Invoke();
     }
 
@@ -144,14 +148,18 @@ public class CharacterController : MonoBehaviour
         _rb.velocity = Vector3.SmoothDamp(velocity, targetVelocity, ref _velocity, movementSmoothing);
     }
 
-    private void AirMovement(float move)
+    private bool AirMovement(float move)
     {
+        if (!CanControlMovement()) return false;
+        
         var velocity = _rb.velocity;
 
         // Move the character by finding the target velocity
         Vector3 targetVelocity = new Vector2(move * 10f, velocity.y);
         // And then smoothing it out and applying it to the character
         _rb.velocity = Vector3.SmoothDamp(velocity, targetVelocity, ref _velocity, movementSmoothing);
+
+        return true;
     }
 
     private void CheckForReversedDirection(float move)
@@ -176,6 +184,16 @@ public class CharacterController : MonoBehaviour
         scale.Set(scale.x * -1, scale.y, scale.z);
     }
 
+    private void TickDownWallJumpTimer(float deltaTime)
+    {
+        _wallJumpCooldownTimer -= deltaTime;
+    }
+
+    public bool CanControlMovement()
+    {
+        return _wallJumpCooldownTimer <= 0;
+    }
+    
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

@@ -297,7 +297,7 @@ public class GrapplingGun : MonoBehaviour
 
         if (Application.isPlaying)
         {
-            Gizmos.color = Color.red;
+            Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(_hookPosition, GrappleHookCheckRadius);
         }
     }

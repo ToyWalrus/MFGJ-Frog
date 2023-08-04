@@ -33,7 +33,7 @@ public class PlayerInput : MonoBehaviour
     private void OnEnable()
     {
         controller.onLandEvent.AddListener(ResetJumpCount);
-        controller.onWallSlideEvent.AddListener(ResetJumpCountFromWall);
+        controller.onWallSlideEvent.AddListener(ResetJumpCount);
         grappler.onGrappleFire.AddListener(OnFireGrapple);
         grappler.onGrappleRelease.AddListener(OnReleaseGrapple);
     }
@@ -41,7 +41,7 @@ public class PlayerInput : MonoBehaviour
     private void OnDisable()
     {
         controller.onLandEvent.RemoveListener(ResetJumpCount);
-        controller.onWallSlideEvent.RemoveListener(ResetJumpCountFromWall);
+        controller.onWallSlideEvent.RemoveListener(ResetJumpCount);
         grappler.onGrappleFire.RemoveListener(OnFireGrapple);
         grappler.onGrappleRelease.RemoveListener(OnReleaseGrapple);
     }
@@ -53,7 +53,7 @@ public class PlayerInput : MonoBehaviour
         {
             frogAnimator.UpdateGrapplePoint(grappler.grapplePoint);
         }
-        
+
         _movement = Input.GetAxisRaw("Horizontal");
 
         if (!CheckCanJump(Time.deltaTime)) return;
@@ -64,10 +64,9 @@ public class PlayerInput : MonoBehaviour
     // Move player
     private void FixedUpdate()
     {
-
         if (_jumpPressed)
         {
-            controller.Jump(grappler.IsGrappled, grappler.grappleModeReadout);
+            controller.Jump();
             frogAnimator.TriggerJump();
 
             _jumpsSinceLastGrounded++;
@@ -76,39 +75,18 @@ public class PlayerInput : MonoBehaviour
             {
                 grappler.EndGrapple();
             }
-
         }
 
 
-        
         frogAnimator.SetIsGrounded(controller.IsGrounded());
 
         // Don't accept movement if we're grappling
-        if (grappler != null && grappler.IsGrappled)
-        {
-            Debug.Log("grappling");
-            Debug.Log(gameObject.GetComponent<Rigidbody2D>().velocity.x);
-            if (gameObject.GetComponent<Rigidbody2D>().velocity.x < -0.1f && _isSwingingRight)
-            {
-                Debug.Log("fliping");
-                gameObject.transform.Find("FrogAnimator").GetComponent<SpriteRenderer>().flipY = true;
-                
-                _isSwingingRight = false;
-            }
-            else if (gameObject.GetComponent<Rigidbody2D>().velocity.x > 0.1f && !_isSwingingRight)
-            {
-                Debug.Log("fliping");
-                gameObject.transform.Find("FrogAnimator").GetComponent<SpriteRenderer>().flipY = false;
-                _isSwingingRight = true;
-            }
-            return;
-        }
-        else
-        {
-            gameObject.transform.Find("FrogAnimator").GetComponent<SpriteRenderer>().flipY = false;
-        }
+        if (grappler != null && grappler.IsGrappled) return;
 
-        frogAnimator.SetIsMoving(_movement != 0 && !grappler.IsGrappled, Math.Sign(_movement));
+        if (controller.CanControlMovement())
+        {
+            frogAnimator.SetIsMoving(_movement != 0 && !grappler.IsGrappled, Math.Sign(_movement));
+        }
 
         if (_movement != 0f)
         {
@@ -151,18 +129,13 @@ public class PlayerInput : MonoBehaviour
         {
             _jumpCooldownTimer = jumpCooldown;
         }
-        _jumpPressed = false;
 
+        _jumpPressed = false;
     }
 
     private void ResetJumpCount()
     {
         _jumpsSinceLastGrounded = 0;
-    }
-
-    private void ResetJumpCountFromWall()
-    {
-        _jumpsSinceLastGrounded = 1;
     }
 
     private void OnFireGrapple(Vector2 hitPoint, bool didHitSurface)
