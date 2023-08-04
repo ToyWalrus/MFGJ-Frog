@@ -92,11 +92,7 @@ public class MovingPlatform : MonoBehaviour
 
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(Endpoint, 1);
-    }
+
 
     private void flip()
     {

@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using UnityEngine;
 
 public class KillOnContact : MonoBehaviour
@@ -8,13 +9,15 @@ public class KillOnContact : MonoBehaviour
 
     private void Start()
     {
-        respawnPoint = GameObject.Find("RespawnPoint").transform.position;
+        respawnPoint  = GameObject.Find("RespawnPoint").transform.position;
+
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (!collision.gameObject.CompareTag("Player")) return;
 
         Debug.Log("respawning");
+
         collision.gameObject.transform.position = respawnPoint;
     }
 }

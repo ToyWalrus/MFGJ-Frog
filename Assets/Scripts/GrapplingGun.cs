@@ -44,6 +44,7 @@ public class GrapplingGun : MonoBehaviour
     public UnityEvent<Vector2, bool> onGrappleFire;
     public UnityEvent onGrappleFireForAudio;
     public UnityEvent onHookSet;
+    public UnityEvent onGrappleSet;
     public UnityEvent onGrappleRelease;
     
 
@@ -111,6 +112,7 @@ public class GrapplingGun : MonoBehaviour
         // "Fire2" will keep the player at a set distance from the grapple point
         _grappleMode = fire1JustPressed ? GrappleMode.PullToPoint : GrappleMode.KeepAtDistance;
 
+        
         // Initiate the grapple
         FireGrapple();
     }
@@ -182,7 +184,8 @@ public class GrapplingGun : MonoBehaviour
         _hookPosition = firePosition;
         
         onGrappleFire.Invoke(grapplePoint, hitCollider);
-        gameObject.GetComponent<AudioSource>().Play();
+        onGrappleFireForAudio.Invoke();
+        
     }
 
     private void UpdateHookPosition()
