@@ -374,6 +374,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e21b6921b6fdf4949804424863260a86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  frogCollider: {fileID: 5966644432521035147}
+  frogColliderRightFacing: {x: -0.72, y: 0.28}
+  frogColliderLeftFacing: {x: 0.5, y: 0.28}
 --- !u!1 &4488343454426277532
 GameObject:
   m_ObjectHideFlags: 0

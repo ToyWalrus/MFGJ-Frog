@@ -13,7 +13,12 @@ public class FrogAnimator : MonoBehaviour
     private static readonly int QuickAnimProperty = Animator.StringToHash("Quick");
     private static readonly int JumpAnimProperty = Animator.StringToHash("Jump");
     private static readonly int WallHoldAnimProperty = Animator.StringToHash("WallHold");
- 
+
+    // It's pretty hacky to put this here this way, but it's the last day so YOLOOOO
+    public Collider2D frogCollider;
+    public Vector2 frogColliderRightFacing;
+    public Vector2 frogColliderLeftFacing;
+    
     private Vector2 _hitPoint;
 
     // Start is called before the first frame update
@@ -49,13 +54,17 @@ public class FrogAnimator : MonoBehaviour
     {
         _anim.SetBool(MovingAnimProperty, isMoving);
 
+        if (!isMoving) return;
+
         if (dir < 0)
         {
             transform.localScale = new Vector3(-1, 1, 1);
+            frogCollider.offset = frogColliderLeftFacing;
         }
         else if (dir > 0)
         {
             transform.localScale = Vector3.one;
+            frogCollider.offset = frogColliderRightFacing;
         }
     }
 
