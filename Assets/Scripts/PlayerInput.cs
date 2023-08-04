@@ -86,26 +86,26 @@ public class PlayerInput : MonoBehaviour
         // Don't accept movement if we're grappling
         if (grappler != null && grappler.IsGrappled)
         {
-            Debug.Log("grappling");
-            Debug.Log(gameObject.GetComponent<Rigidbody2D>().velocity.x);
-            if (gameObject.GetComponent<Rigidbody2D>().velocity.x < -0.1f && _isSwingingRight)
-            {
-                Debug.Log("fliping");
-                gameObject.transform.Find("FrogAnimator").GetComponent<SpriteRenderer>().flipY = true;
-                
-                _isSwingingRight = false;
-            }
-            else if (gameObject.GetComponent<Rigidbody2D>().velocity.x > 0.1f && !_isSwingingRight)
-            {
-                Debug.Log("fliping");
-                gameObject.transform.Find("FrogAnimator").GetComponent<SpriteRenderer>().flipY = false;
-                _isSwingingRight = true;
-            }
+            // Debug.Log("grappling");
+            // Debug.Log(gameObject.GetComponent<Rigidbody2D>().velocity.x);
+            // if (gameObject.GetComponent<Rigidbody2D>().velocity.x < -0.1f && _isSwingingRight)
+            // {
+            //     Debug.Log("fliping");
+            //     gameObject.transform.Find("FrogAnimator").GetComponent<SpriteRenderer>().flipY = true;
+            //     
+            //     _isSwingingRight = false;
+            // }
+            // else if (gameObject.GetComponent<Rigidbody2D>().velocity.x > 0.1f && !_isSwingingRight)
+            // {
+            //     Debug.Log("fliping");
+            //     gameObject.transform.Find("FrogAnimator").GetComponent<SpriteRenderer>().flipY = false;
+            //     _isSwingingRight = true;
+            // }
             return;
         }
         else
         {
-            gameObject.transform.Find("FrogAnimator").GetComponent<SpriteRenderer>().flipY = false;
+            // gameObject.transform.Find("FrogAnimator").GetComponent<SpriteRenderer>().flipY = false;
         }
 
         frogAnimator.SetIsMoving(_movement != 0 && !grappler.IsGrappled, Math.Sign(_movement));

@@ -53,9 +53,7 @@ public class FrogAnimator : MonoBehaviour
     public void SetIsMoving(bool isMoving, int dir)
     {
         _anim.SetBool(MovingAnimProperty, isMoving);
-
-        if (!isMoving) return;
-
+        
         if (dir < 0)
         {
             transform.localScale = new Vector3(-1, 1, 1);

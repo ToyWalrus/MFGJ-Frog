@@ -51,7 +51,7 @@ public class MovingPlatform : MonoBehaviour
 
             if (grapplingGun.hitCollider == gameObject.GetComponent<Collider2D>())
             {
-                Debug.Log("grappled");
+                // Debug.Log("grappled");
                 platformGrappled = true;
             }
             else

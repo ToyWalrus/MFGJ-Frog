@@ -52,7 +52,7 @@ public class CharacterController : MonoBehaviour
             _sliding = true;
             if (!wasSliding)
             {
-                Debug.Log("WallJumpReset");
+                // Debug.Log("WallJumpReset");
                 onWallSlideEvent.Invoke();
             }
         }
@@ -68,7 +68,7 @@ public class CharacterController : MonoBehaviour
                 _grounded = true;
                 if (!wasGrounded && !wasSliding)
                 {
-                    Debug.Log("GroundJumpReset");
+                    // Debug.Log("GroundJumpReset");
                     onLandEvent.Invoke();
                 }
             }
@@ -78,27 +78,13 @@ public class CharacterController : MonoBehaviour
         _rb.drag = _grounded ? groundLinearDrag : 0.05f;
 
 
-        if (isWallSliding())
-        {
-            gameObject.transform.Find("FrogAnimator").GetComponent<FrogAnimator>().WallHold(true);
-        }
-        else
-        {
-            gameObject.transform.Find("FrogAnimator").GetComponent<FrogAnimator>().WallHold(false);
-        }
+        gameObject.transform.Find("FrogAnimator").GetComponent<FrogAnimator>().WallHold(isWallSliding());
     }
 
 
     public bool IsGrounded()
     {
-        if (isWallSliding() == false)
-        {
-            return _grounded;
-        }
-        else
-        {
-            return false;
-        }
+        return isWallSliding() == false && _grounded;
     }
 
     public bool isWallSliding()
