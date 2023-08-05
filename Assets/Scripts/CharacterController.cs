@@ -24,6 +24,7 @@ public class CharacterController : MonoBehaviour
     public UnityEvent onLandEvent; // Event triggered when the player lands after being in the air.
     public UnityEvent onWallSlideEvent; // Event triggered when the player hits a wall after being in the air.
     public UnityEvent onJumpEvent;
+    public UnityEvent onMoveEvent;
 
     private float _wallJumpCooldown = 0.75f;
     private float _wallJumpCooldownTimer = 0f;
@@ -146,6 +147,7 @@ public class CharacterController : MonoBehaviour
         Vector3 targetVelocity = new Vector2(move * 15f, velocity.y);
         // And then smoothing it out and applying it to the character
         _rb.velocity = Vector3.SmoothDamp(velocity, targetVelocity, ref _velocity, movementSmoothing);
+        onMoveEvent.Invoke();
     }
 
     private bool AirMovement(float move)

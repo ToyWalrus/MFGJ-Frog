@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 5871658098398038450}
   - component: {fileID: 2670736552296107461}
   - component: {fileID: 8055367852067988773}
+  - component: {fileID: 7800162462532298833}
   m_Layer: 0
   m_Name: Grappler
   m_TagString: Untagged
@@ -151,11 +152,110 @@ MonoBehaviour:
   onHookSet:
     m_PersistentCalls:
       m_Calls: []
+  onGrappleSet:
+    m_PersistentCalls:
+      m_Calls: []
   onGrappleRelease:
     m_PersistentCalls:
       m_Calls: []
   hitCollider: {fileID: 0}
 --- !u!82 &8055367852067988773
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4294606949040016183}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!82 &7800162462532298833
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -403,7 +503,7 @@ Transform:
   m_GameObject: {fileID: 4488343454426277532}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.69, y: 0.22, z: 0}
+  m_LocalPosition: {x: 1.704, y: 0.23, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -504,7 +604,8 @@ GameObject:
   - component: {fileID: 892641490785053821}
   - component: {fileID: 9118389713084155941}
   - component: {fileID: 5966644432521035147}
-  - component: {fileID: 7234110225951202483}
+  - component: {fileID: 512078279657116667}
+  - component: {fileID: 6823728748913746891}
   m_Layer: 0
   m_Name: Frog
   m_TagString: Player
@@ -540,7 +641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 441c95a5a39d4bd88eac21b6c688f176, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 20
+  jumpForce: 25
   movementSmoothing: 0.014
   whatIsGround:
     serializedVersion: 2
@@ -555,6 +656,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   onJumpEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onMoveEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &7646518437716568106
@@ -622,7 +726,7 @@ SpringJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: -95.01335, y: -5.2141476}
+  m_ConnectedAnchor: {x: -179.98273, y: -6.0278077}
   m_AutoConfigureDistance: 0
   m_Distance: 0.005
   m_DampingRatio: 1
@@ -662,7 +766,27 @@ CircleCollider2D:
   m_Offset: {x: -0.7277217, y: 0.2851529}
   serializedVersion: 2
   m_Radius: 1.2852464
---- !u!82 &7234110225951202483
+--- !u!114 &512078279657116667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6262154591235707452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 927395fe46d46c845ba656c5ec096b9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grappler: {fileID: 2670736552296107461}
+  controller: {fileID: 1328755109073285878}
+  Jump: {fileID: 8300000, guid: 5389fae1e957a9d4b9013648d4a9b19c, type: 3}
+  Land: {fileID: 0}
+  Hop: {fileID: 8300000, guid: 1754f39ba2fc7534c88f78068f7b9a4f, type: 3}
+  TongueContact: {fileID: 8300000, guid: 5c1228774bd12614e9adfecd2603800f, type: 3}
+  TongueSwing: {fileID: 8300000, guid: f9b65b16fb54a7948b2d49e31590232a, type: 3}
+  tongueShoot: {fileID: 8300000, guid: 4050b9d60880c05408025e6f1ecf1cba, type: 3}
+--- !u!82 &6823728748913746891
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -672,9 +796,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 60b68daf688a2094bab2243a9be31a61, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.48
   m_Pitch: 1
   Loop: 0
   Mute: 0
