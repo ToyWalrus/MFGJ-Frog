@@ -2231,8 +2231,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1540346015
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 5cda97044257db04fa1e7a9d325cef04, type: 3}
   m_Color: {r: 0.8396226, g: 0.8356621, b: 0.8356621, a: 1}
@@ -2799,7 +2799,7 @@ GameObject:
   m_Component:
   - component: {fileID: 248747450}
   - component: {fileID: 248747449}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: temple_statue_1 (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2993,8 +2993,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1540346015
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 456f1028d8cca98438a19c6da679c308, type: 3}
   m_Color: {r: 0.8396226, g: 0.8356621, b: 0.8356621, a: 1}
@@ -3268,8 +3268,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1540346015
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 5cda97044257db04fa1e7a9d325cef04, type: 3}
   m_Color: {r: 0.8396226, g: 0.8356621, b: 0.8356621, a: 1}
@@ -5443,7 +5443,7 @@ GameObject:
   - component: {fileID: 574486748}
   - component: {fileID: 574486747}
   - component: {fileID: 574486749}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: temple_statue_1 (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6026,8 +6026,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1540346015
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: caf6d27c10b2e9b4cbff67959539cc8a, type: 3}
   m_Color: {r: 0.8396226, g: 0.8356621, b: 0.8356621, a: 1}
@@ -6510,7 +6510,7 @@ GameObject:
   m_Component:
   - component: {fileID: 683975149}
   - component: {fileID: 683975148}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: temple_statue_1 (16)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6555,8 +6555,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1540346015
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 5cda97044257db04fa1e7a9d325cef04, type: 3}
   m_Color: {r: 0.8396226, g: 0.8356621, b: 0.8356621, a: 1}
@@ -7352,7 +7352,7 @@ GameObject:
   - component: {fileID: 740248171}
   - component: {fileID: 740248170}
   - component: {fileID: 740248172}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: temple_statue_1 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8144,7 +8144,7 @@ GameObject:
   - component: {fileID: 810665279}
   - component: {fileID: 810665278}
   - component: {fileID: 810665280}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: temple_statue_1 (13)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9969,7 +9969,7 @@ GameObject:
   - component: {fileID: 1040932069}
   - component: {fileID: 1040932068}
   - component: {fileID: 1040932070}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: temple_statue_1 (12)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12297,7 +12297,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1316037454}
   - component: {fileID: 1316037453}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: temple_statue_1 (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12733,8 +12733,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1540346015
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 5cda97044257db04fa1e7a9d325cef04, type: 3}
   m_Color: {r: 0.8396226, g: 0.8356621, b: 0.8356621, a: 1}
@@ -13379,8 +13379,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1540346015
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 5cda97044257db04fa1e7a9d325cef04, type: 3}
   m_Color: {r: 0.8396226, g: 0.8356621, b: 0.8356621, a: 1}
@@ -13781,7 +13781,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 0.641
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -13888,7 +13888,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1434008166}
   - component: {fileID: 1434008165}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: temple_statue_1 (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14114,8 +14114,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1540346015
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 456f1028d8cca98438a19c6da679c308, type: 3}
   m_Color: {r: 0.8396226, g: 0.8356621, b: 0.8356621, a: 1}
@@ -14567,8 +14567,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1540346015
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 5cda97044257db04fa1e7a9d325cef04, type: 3}
   m_Color: {r: 0.8396226, g: 0.8356621, b: 0.8356621, a: 1}
@@ -15169,7 +15169,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1579098825}
   - component: {fileID: 1579098824}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: temple_statue_1 (17)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15214,8 +15214,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1540346015
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 5cda97044257db04fa1e7a9d325cef04, type: 3}
   m_Color: {r: 0.8396226, g: 0.8356621, b: 0.8356621, a: 1}
@@ -15502,6 +15502,10 @@ PrefabInstance:
     - target: {fileID: 6262154591235707452, guid: cfbb52f69fe25754793b65e907df98fb, type: 3}
       propertyPath: m_Name
       value: Frog
+      objectReference: {fileID: 0}
+    - target: {fileID: 6823728748913746891, guid: cfbb52f69fe25754793b65e907df98fb, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -17111,7 +17115,7 @@ GameObject:
   - component: {fileID: 1773223589}
   - component: {fileID: 1773223588}
   - component: {fileID: 1773223590}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: temple_statue_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17678,7 +17682,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1810246927}
   - component: {fileID: 1810246926}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: temple_statue_2 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17723,8 +17727,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1540346015
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: caf6d27c10b2e9b4cbff67959539cc8a, type: 3}
   m_Color: {r: 0.8396226, g: 0.8356621, b: 0.8356621, a: 1}
@@ -18573,7 +18577,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1936561152}
   - component: {fileID: 1936561151}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: temple_statue_1 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19324,7 +19328,7 @@ GameObject:
   - component: {fileID: 1985782263}
   - component: {fileID: 1985782262}
   - component: {fileID: 1985782264}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: temple_statue_1 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19691,7 +19695,7 @@ GameObject:
   - component: {fileID: 2041017135}
   - component: {fileID: 2041017134}
   - component: {fileID: 2041017136}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: temple_statue_1 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20859,8 +20863,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1540346015
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: caf6d27c10b2e9b4cbff67959539cc8a, type: 3}
   m_Color: {r: 0.8396226, g: 0.8356621, b: 0.8356621, a: 1}
