@@ -7220,7 +7220,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 0.554
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -11981,15 +11981,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7874432437653464677, guid: 96f055a7431975941b838c89407d45d5, type: 3}
       propertyPath: m_SortingLayer
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7874432437653464677, guid: 96f055a7431975941b838c89407d45d5, type: 3}
       propertyPath: m_SortingOrder
-      value: 2
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 7874432437653464677, guid: 96f055a7431975941b838c89407d45d5, type: 3}
       propertyPath: m_SortingLayerID
-      value: 1540346015
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
