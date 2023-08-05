@@ -641,7 +641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 441c95a5a39d4bd88eac21b6c688f176, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 25
+  jumpForce: 27
   movementSmoothing: 0.014
   whatIsGround:
     serializedVersion: 2
@@ -676,7 +676,7 @@ MonoBehaviour:
   grappler: {fileID: 2670736552296107461}
   frogAnimator: {fileID: 2112119952186205917}
   controller: {fileID: 1328755109073285878}
-  speed: 60
+  speed: 70
   jumpCooldown: 0.5
   coyoteTime: 0.1
   maxJumps: 2
